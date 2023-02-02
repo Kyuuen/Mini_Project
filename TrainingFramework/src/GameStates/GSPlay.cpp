@@ -25,7 +25,6 @@ GSPlay::~GSPlay()
 
 void GSPlay::Init()
 {
-	m_Test = 1;
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
 	auto texture = ResourceManagers::GetInstance()->GetTexture("bg_play1.tga");
 
@@ -53,17 +52,16 @@ void GSPlay::Init()
 
 	shader = ResourceManagers::GetInstance()->GetShader("Animation");
 	texture = ResourceManagers::GetInstance()->GetTexture("Actor1_2.tga");
-	std::shared_ptr<SpriteAnimation> obj = std::make_shared<SpriteAnimation>(model, shader, texture, 9, 6, 5, 0.1f);
+	std::shared_ptr<SpriteAnimation> obj = std::make_shared<SpriteAnimation>(model, shader, texture, 9, 6, 3, 0.1f);
 	
 	obj->Set2DPosition(240, 400);
-	obj->SetSize(334, 223);
-	//obj->SetRotation(Vector3(0.0f, 3.14f, 0.0f));
+	obj->SetSize(30, 40);
 	m_listAnimation.push_back(obj);
+	m_KeyPress = 0;
 }
 
 void GSPlay::Exit()
 {
-	printf("%d", m_Test);
 }
 
 
@@ -82,6 +80,46 @@ void GSPlay::HandleEvents()
 
 void GSPlay::HandleKeyEvents(int key, bool bIsPressed)
 {
+	if (bIsPressed)
+	{
+		switch (key)
+		{
+		case KEY_MOVE_LEFT:
+			m_KeyPress |= 1;
+			break;
+		case KEY_MOVE_BACKWORD:
+			m_KeyPress |= 1<<1;
+			break;
+		case KEY_MOVE_RIGHT:
+			m_KeyPress |= 1<<2;
+			break;
+		case KEY_MOVE_FORWORD:
+			m_KeyPress |= 1<<3;
+			break;
+		default:
+			break;
+		}
+	}
+	else
+	{
+		switch (key)
+		{
+		case KEY_MOVE_LEFT:
+			m_KeyPress ^= 1;
+			break;
+		case KEY_MOVE_BACKWORD:
+			m_KeyPress ^= 1 << 1;
+			break;
+		case KEY_MOVE_RIGHT:
+			m_KeyPress ^= 1 << 2;
+			break;
+		case KEY_MOVE_FORWORD:
+			m_KeyPress ^= 1 << 3;
+			break;
+		default:
+			break;
+		}
+	}
 }
 
 void GSPlay::HandleTouchEvents(int x, int y, bool bIsPressed)
@@ -101,6 +139,11 @@ void GSPlay::HandleMouseMoveEvents(int x, int y)
 
 void GSPlay::Update(float deltaTime)
 {
+	switch (m_KeyPress)//Handle Key event
+	{
+	default:
+		break;
+	}
 	for (auto it : m_listButton)
 	{
 		it->Update(deltaTime);
