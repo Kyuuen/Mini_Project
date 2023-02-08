@@ -1,0 +1,13 @@
+Basic Description: Relaxing + Strategy + Castle Wall + Medieval
+
+Short Description: A 2D tower defense game in which you have to defend your castle from a siege of skeletons army. You have to slain hordes
+of enemies by building powerful towers on their way, get money from killing them, and make more powerful ones. Survive untill the end of 
+the attack to win the level.
+
+Mechanic: 
+- Building tower: You can build a chosen tower on defined grounds. Each tower has a different cost to build, the more expensive your tower is,
+the more powerful it is.
+- Enemies attacking: They will follow a defined way, disappear at the end of their way, and deal damage to your castle.
+- Winning: Survive all attacks.
+- Losing: Your castle decrease to 0.
+- Shop and currencies: Defeat enemies to get gold to build towers. Stronger enemies have a more incredible bounty.
