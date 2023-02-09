@@ -15,7 +15,7 @@ GSMenu::~GSMenu()
 void GSMenu::Init()
 {
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
-	auto texture = ResourceManagers::GetInstance()->GetTexture("bg_main_menu.tga");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("background.tga");
 
 	// background
 	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
@@ -40,6 +40,15 @@ void GSMenu::Init()
 	button->SetSize(50, 50);
 	button->SetOnClick([]() {
 		exit(0);
+		});
+	m_listButton.push_back(button);
+
+	// help button
+	texture = ResourceManagers::GetInstance()->GetTexture("btn_help.tga");
+	button = std::make_shared<GameButton>(model, shader, texture);
+	button->Set2DPosition(Globals::screenWidth - 100, 50);
+	button->SetSize(50, 50);
+	button->SetOnClick([]() {
 		});
 	m_listButton.push_back(button);
 
