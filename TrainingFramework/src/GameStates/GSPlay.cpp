@@ -26,7 +26,7 @@ GSPlay::~GSPlay()
 void GSPlay::Init()
 {
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
-	auto texture = ResourceManagers::GetInstance()->GetTexture("bg_play1.tga");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("bg_mainmenu.tga");
 
 	// background
 	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
@@ -51,13 +51,22 @@ void GSPlay::Init()
 	m_score->Set2DPosition(Vector2(5, 25));
 
 	shader = ResourceManagers::GetInstance()->GetShader("Animation");
-	texture = ResourceManagers::GetInstance()->GetTexture("Actor1_2.tga");
-	std::shared_ptr<SpriteAnimation> obj = std::make_shared<SpriteAnimation>(model, shader, texture, 9, 6, 3, 0.1f);
+	texture = ResourceManagers::GetInstance()->GetTexture("Enemy2Idle.tga");
+	std::shared_ptr<SpriteAnimation> obj = std::make_shared<SpriteAnimation>(model, shader, texture, 12, 1, 3, 0.1f);
 	
 	obj->Set2DPosition(240, 400);
 	obj->SetSize(30, 40);
 	m_listAnimation.push_back(obj);
 	m_KeyPress = 0;
+
+	// First waypoint
+	shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+	texture = ResourceManagers::GetInstance()->GetTexture("btn_close.tga");
+	std::shared_ptr<Sprite2D> waypoint = std::make_shared<Sprite2D>(1, model, shader, texture);
+	
+	waypoint->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2);
+	waypoint->SetSize(60, 80);
+	
 }
 
 void GSPlay::Exit()
