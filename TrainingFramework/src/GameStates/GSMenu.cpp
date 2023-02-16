@@ -47,7 +47,7 @@ void GSMenu::Init()
 	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
 	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("SuperMario256.ttf");
 	m_textGameName = std::make_shared< Text>(shader, font, "Rise Of Skeletons", Vector4(1.0f, 0.5f, 0.0f, 1.0f), 3.0f);
-	m_textGameName->Set2DPosition(Vector2(60, 200));
+	m_textGameName->Set2DPosition(Vector2(Globals::screenWidth/2-400, 300));
 
 	std::string name = "Alarm01.wav";
 	ResourceManagers::GetInstance()->PlaySound(name);
