@@ -6,6 +6,7 @@ class Sprite3D;
 class Text;
 class GameButton;
 class SpriteAnimation;
+class Enemy;
 
 class GSPlay :
 	public GameStateBase
@@ -33,6 +34,7 @@ private:
 	std::shared_ptr<Text>		m_score;
 	std::list<std::shared_ptr<GameButton>>	m_listButton;
 	std::list<std::shared_ptr<SpriteAnimation>>	m_listAnimation;
-
+	std::list<std::shared_ptr<Sprite2D>>	m_listWaypoint;
+	std::list<std::shared_ptr<Enemy>>		m_listEnemy;
 };
 

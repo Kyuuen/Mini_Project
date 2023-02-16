@@ -10,6 +10,7 @@
 #include "Text.h"
 #include "GameButton.h"
 #include "SpriteAnimation.h"
+#include "Enemy.h"
 
 
 
@@ -26,7 +27,7 @@ GSPlay::~GSPlay()
 void GSPlay::Init()
 {
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
-	auto texture = ResourceManagers::GetInstance()->GetTexture("bg_mainmenu.tga");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("bg_main_menu.tga");
 
 	// background
 	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
@@ -37,7 +38,7 @@ void GSPlay::Init()
 	// button close
 	texture = ResourceManagers::GetInstance()->GetTexture("btn_close.tga");
 	std::shared_ptr<GameButton>  button = std::make_shared<GameButton>(model, shader, texture);
-	button->Set2DPosition(Globals::screenWidth - 50, 50);
+	button->Set2DPosition(Globals::screenWidth - 50.0, 50.0);
 	button->SetSize(50, 50);
 	button->SetOnClick([this]() {
 			GameStateMachine::GetInstance()->PopState();
@@ -49,24 +50,42 @@ void GSPlay::Init()
 	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("Brightly Crush Shine.otf");
 	m_score = std::make_shared< Text>(shader, font, "score: 10", TextColor::RED, 1.0);
 	m_score->Set2DPosition(Vector2(5, 25));
-
-	shader = ResourceManagers::GetInstance()->GetShader("Animation");
+	//Enemy 2
+	/*shader = ResourceManagers::GetInstance()->GetShader("Animation");
 	texture = ResourceManagers::GetInstance()->GetTexture("Enemy2Idle.tga");
-	std::shared_ptr<SpriteAnimation> obj = std::make_shared<SpriteAnimation>(model, shader, texture, 12, 1, 3, 0.1f);
+	std::shared_ptr<SpriteAnimation> obj = std::make_shared<SpriteAnimation>(model, shader, texture, 12, 1, 0, 0.1f);
 	
 	obj->Set2DPosition(240, 400);
-	obj->SetSize(30, 40);
+	obj->SetSize(240, 320);
+
 	m_listAnimation.push_back(obj);
-	m_KeyPress = 0;
+	m_KeyPress = 0;*/
 
 	// First waypoint
 	shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
 	texture = ResourceManagers::GetInstance()->GetTexture("btn_close.tga");
-	std::shared_ptr<Sprite2D> waypoint = std::make_shared<Sprite2D>(1, model, shader, texture);
+	std::shared_ptr<Sprite2D> waypoint_1 = std::make_shared<Sprite2D>(model, shader, texture);
 	
-	waypoint->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2);
-	waypoint->SetSize(60, 80);
+	waypoint_1->Set2DPosition(Globals::screenWidth / 2 - 100.0, Globals::screenHeight / 2);
+	waypoint_1->SetSize(60, 80);
+	m_listWaypoint.push_back(waypoint_1);
+	//Second waypoint
+	shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+	texture = ResourceManagers::GetInstance()->GetTexture("btn_close.tga");
+	std::shared_ptr<Sprite2D> waypoint_2 = std::make_shared<Sprite2D>(model, shader, texture);
+
+	waypoint_2->Set2DPosition(Globals::screenWidth / 2 + 100.0, Globals::screenHeight / 2);
+	waypoint_2->SetSize(60, 80);
+	m_listWaypoint.push_back(waypoint_2);
 	
+	//Enemy
+	shader = ResourceManagers::GetInstance()->GetShader("Animation");
+	texture = ResourceManagers::GetInstance()->GetTexture("Enemy2Idle.tga");
+	std::shared_ptr<Enemy>	m_enemy = std::make_shared<Enemy>(model, shader, texture, 30, 10, waypoint_1);
+
+	m_enemy->Set2DPosition(100, 100);
+	m_enemy->SetSize(240, 320);
+	m_listEnemy.push_back(m_enemy);
 }
 
 void GSPlay::Exit()
@@ -153,6 +172,10 @@ void GSPlay::Update(float deltaTime)
 	default:
 		break;
 	}
+	for (auto it : m_listEnemy) 
+	{
+		it->Update(deltaTime);
+	}
 	for (auto it : m_listButton)
 	{
 		it->Update(deltaTime);
@@ -167,6 +190,14 @@ void GSPlay::Draw()
 {
 	m_background->Draw();
 	m_score->Draw();
+	for (auto it : m_listEnemy) 
+	{
+		it->Draw();
+	}
+	for (auto it : m_listWaypoint)
+	{
+		it->Draw();
+	}
 	for (auto it : m_listButton)
 	{
 		it->Draw();

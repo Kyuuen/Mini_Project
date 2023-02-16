@@ -34,7 +34,7 @@ void GSMenu::Init()
 	m_listButton.push_back(button);
 
 	// exit button
-	texture = ResourceManagers::GetInstance()->GetTexture("circle_buttonn.tga");
+	texture = ResourceManagers::GetInstance()->GetTexture("btn_close.tga");
 	button = std::make_shared<GameButton>(model, shader, texture);
 	button->Set2DPosition(Globals::screenWidth - 50, 50);
 	button->SetSize(50, 50);
@@ -47,7 +47,7 @@ void GSMenu::Init()
 	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
 	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("SuperMario256.ttf");
 	m_textGameName = std::make_shared< Text>(shader, font, "Rise Of Skeletons", Vector4(1.0f, 0.5f, 0.0f, 1.0f), 3.0f);
-	m_textGameName->Set2DPosition(Vector2(Globals::screenWidth/2-400, 300));
+	m_textGameName->Set2DPosition(Vector2(Globals::screenWidth/2-350, 200));
 
 	std::string name = "Alarm01.wav";
 	ResourceManagers::GetInstance()->PlaySound(name);

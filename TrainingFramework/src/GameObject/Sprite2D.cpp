@@ -107,6 +107,15 @@ void Sprite2D::Set2DPosition(GLfloat x, GLfloat y)
 	CalculateWorldMatrix();
 }
 
+Vector2 Sprite2D::Get2DPosition()
+{
+	Vector2 pos;
+	pos.x = m_position.x;
+	pos.y = m_position.y;
+	return pos;
+}
+
+
 void Sprite2D::SetRotation(Vector3 rotation)
 {
 	m_rotation = rotation;
