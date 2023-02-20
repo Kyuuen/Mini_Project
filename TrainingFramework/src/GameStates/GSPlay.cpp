@@ -66,7 +66,7 @@ void GSPlay::Init()
 	texture = ResourceManagers::GetInstance()->GetTexture("btn_close.tga");
 	std::shared_ptr<Sprite2D> waypoint_1 = std::make_shared<Sprite2D>(model, shader, texture);
 	
-	waypoint_1->Set2DPosition(Globals::screenWidth / 2 - 100.0, Globals::screenHeight / 2);
+	waypoint_1->Set2DPosition(Globals::screenWidth / 2 - 200.0, Globals::screenHeight / 2 + 200);
 	waypoint_1->SetSize(60, 80);
 	m_listWaypoint.push_back(waypoint_1);
 	//Second waypoint
@@ -74,15 +74,15 @@ void GSPlay::Init()
 	texture = ResourceManagers::GetInstance()->GetTexture("btn_close.tga");
 	std::shared_ptr<Sprite2D> waypoint_2 = std::make_shared<Sprite2D>(model, shader, texture);
 
-	waypoint_2->Set2DPosition(Globals::screenWidth / 2 + 100.0, Globals::screenHeight / 2);
+	waypoint_2->Set2DPosition(Globals::screenWidth / 2 + 300.0, Globals::screenHeight / 2 - 200);
 	waypoint_2->SetSize(60, 80);
 	m_listWaypoint.push_back(waypoint_2);
 	
 	//Enemy
 	shader = ResourceManagers::GetInstance()->GetShader("Animation");
 	texture = ResourceManagers::GetInstance()->GetTexture("Enemy2Idle.tga");
-	std::shared_ptr<Enemy>	m_enemy = std::make_shared<Enemy>(model, shader, texture, 30, 10, waypoint_1);
-
+	std::shared_ptr<Enemy>	m_enemy = std::make_shared<Enemy>(model, shader, texture, 30, 1, m_listWaypoint);
+	m_enemy->LockTarget();
 	m_enemy->Set2DPosition(100, 100);
 	m_enemy->SetSize(240, 320);
 	m_listEnemy.push_back(m_enemy);
