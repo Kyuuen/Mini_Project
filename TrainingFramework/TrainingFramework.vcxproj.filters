@@ -73,6 +73,9 @@
       <Filter>TrainingFramework\src\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="src\GameObject\Enemy.cpp" />
+    <ClCompile Include="src\GameObject\Tower.cpp" />
+    <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="src\GameObject\Projectile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Application.h">
@@ -136,6 +139,8 @@
       <Filter>TrainingFramework\src\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="src\GameObject\Enemy.h" />
+    <ClInclude Include="src\GameObject\Tower.h" />
+    <ClInclude Include="src\GameObject\Projectile.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

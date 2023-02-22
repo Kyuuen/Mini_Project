@@ -129,11 +129,6 @@ void SpriteAnimation::SetRotation(Vector3 rotation)
 	CalculateWorldMatrix();
 }
 
-Vector2 SpriteAnimation::Get2DPosition()
-{
-	return m_Vec2DPos;
-}
-
 
 void SpriteAnimation::SetSize(GLint width, GLint height)
 {

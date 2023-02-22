@@ -11,6 +11,8 @@
 #include "GameButton.h"
 #include "SpriteAnimation.h"
 #include "Enemy.h"
+#include "Tower.h"
+#include "Projectile.h"
 
 
 
@@ -66,7 +68,7 @@ void GSPlay::Init()
 	texture = ResourceManagers::GetInstance()->GetTexture("btn_close.tga");
 	std::shared_ptr<Sprite2D> waypoint_1 = std::make_shared<Sprite2D>(model, shader, texture);
 	
-	waypoint_1->Set2DPosition(Globals::screenWidth / 2 - 200.0, Globals::screenHeight / 2 + 200);
+	waypoint_1->Set2DPosition(400, 500);
 	waypoint_1->SetSize(60, 80);
 	m_listWaypoint.push_back(waypoint_1);
 	//Second waypoint
@@ -81,11 +83,21 @@ void GSPlay::Init()
 	//Enemy
 	shader = ResourceManagers::GetInstance()->GetShader("Animation");
 	texture = ResourceManagers::GetInstance()->GetTexture("Enemy2Idle.tga");
-	std::shared_ptr<Enemy>	m_enemy = std::make_shared<Enemy>(model, shader, texture, 30, 1, m_listWaypoint);
+	std::shared_ptr<Enemy>	m_enemy = std::make_shared<Enemy>(model, shader, texture, 30, 100, m_listWaypoint);
 	m_enemy->LockTarget();
 	m_enemy->Set2DPosition(100, 100);
 	m_enemy->SetSize(240, 320);
 	m_listEnemy.push_back(m_enemy);
+
+	//Tower
+	shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+	texture = ResourceManagers::GetInstance()->GetTexture("Archer Tower Front.tga");
+	std::shared_ptr<Tower> tower = std::make_shared<Tower>(model, shader, texture, 30, 1, 0, 200);
+
+	tower->m_listEnemies = m_listEnemy;
+	tower->Set2DPosition(Globals::screenWidth / 2 + 400.0, Globals::screenHeight / 2 - 200);
+	tower->SetSize(60, 80);
+	m_listTower.push_back(tower);
 }
 
 void GSPlay::Exit()
@@ -172,6 +184,10 @@ void GSPlay::Update(float deltaTime)
 	default:
 		break;
 	}
+	for (auto it : m_listTower) 
+	{
+		it->Update(deltaTime);
+	}
 	for (auto it : m_listEnemy) 
 	{
 		it->Update(deltaTime);
@@ -190,6 +206,10 @@ void GSPlay::Draw()
 {
 	m_background->Draw();
 	m_score->Draw();
+	for (auto it : m_listTower) 
+	{
+		it->Draw();
+	}
 	for (auto it : m_listEnemy) 
 	{
 		it->Draw();

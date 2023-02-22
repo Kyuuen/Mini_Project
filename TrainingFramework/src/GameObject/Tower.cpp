@@ -7,6 +7,7 @@
 #include "Application.h"
 #include "Sprite2D.h"
 #include "GameManager/ResourceManagers.h"
+#include "Projectile.h"
 
 #include <cmath>
 
@@ -67,14 +68,15 @@ void Tower::UpdateTarget(std::list<std::shared_ptr<Enemy>> listEnemies)
 	}
 }
 
-void Tower::Shoot(std::shared_ptr<Sprite2D> bullet) 
+void Tower::Shoot(std::shared_ptr<Projectile> bullet) 
 {	
 	m_bullet = bullet;
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
 	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
 	auto texture = ResourceManagers::GetInstance()->GetTexture("arrow.tga");
-	m_bullet = std::make_shared<Sprite2D>(model, shader, texture);
+	m_bullet = std::make_shared<Projectile>(model, shader, texture, 300, 20);
 
 	m_bullet->Set2DPosition(400, 500);
 	m_bullet->SetSize(60, 80);
+	m_bullet->Seek(m_target);
 }

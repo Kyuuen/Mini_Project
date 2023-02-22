@@ -7,6 +7,7 @@ class Text;
 class GameButton;
 class SpriteAnimation;
 class Enemy;
+class Tower;
 
 class GSPlay :
 	public GameStateBase
@@ -36,5 +37,7 @@ private:
 	std::list<std::shared_ptr<SpriteAnimation>>	m_listAnimation;
 	std::list<std::shared_ptr<Sprite2D>>	m_listWaypoint;
 	std::list<std::shared_ptr<Enemy>>		m_listEnemy;
+	std::list<std::shared_ptr<Tower>>		m_listTower;
+
 };
 

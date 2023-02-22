@@ -6,7 +6,8 @@ class Sprite2D;
 class Enemy : public SpriteAnimation
 {
 private:
-	GLint	m_health;
+	GLint	m_maxHealth;
+	GLint	m_currentHealth;
 	GLfloat	m_speed;
 	
 public:
@@ -17,10 +18,11 @@ public:
 	std::shared_ptr<Sprite2D>	m_target;
 	Vector2						m_moveDir;
 
-
 	void	EnemyMovement(GLfloat deltatime, GLfloat speed, Vector2 moveDir);
 	void	Update(GLfloat deltatime) override;
 	void	SeekTarget();
 	void	LockTarget();
+	Vector2		Get2DPosition();
+	GLint	GetCurrentHealth();
 };
 
