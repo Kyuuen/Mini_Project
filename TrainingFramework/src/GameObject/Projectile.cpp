@@ -27,13 +27,16 @@ void Projectile::Update(GLfloat deltaTime)
 void Projectile::HitTarget(GLfloat deltaTime, GLfloat speed) 
 {
 	if (m_target = nullptr) return;
-	Vector2 moveDir = m_target->Get2DPosition() - Get2DPosition();
-	Vector2 currentFramePos = Get2DPosition();
-	float distanceThisFrame = sqrt(moveDir.x * moveDir.x + moveDir.y * moveDir.y);
-	if (distanceThisFrame <= deltaTime * speed) 
+	Vector2 tPosition = m_target->Get2DPosition();
+	Vector2 currentFramePos = this->Get2DPosition();
+	Vector2 deltaMove2 = tPosition - currentFramePos;
+	Vector2 deltaMove = deltaMove2.Normalize() * deltaTime * speed;
+	if (deltaMove2.x * deltaMove2.x <= deltaMove.x * deltaMove.x || deltaMove2.y * deltaMove2.y <= deltaMove.y * deltaMove.y) //reached the target
 	{
-		//HitTarget();
+		Set2DPosition(tPosition.x, tPosition.y);
 		return;
 	}
-	currentFramePos += moveDir.Normalize() * deltaTime * speed;
+	currentFramePos += deltaMove2.Normalize() * deltaTime * speed;
+	//Update the position of the sprite
+	Set2DPosition(currentFramePos.x, currentFramePos.y);
 }

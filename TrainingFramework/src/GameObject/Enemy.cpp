@@ -12,7 +12,7 @@ Enemy::Enemy(std::shared_ptr<Model> model, std::shared_ptr<Shader> shader, std::
 	:SpriteAnimation(model, shader, texture, 12, 1, 0, 0.1f)
 {
 	m_maxHealth = maxHealth;
-	m_currentHealth = maxHealth;
+	m_currentHealth = m_maxHealth;
 	m_speed = speed;
 	m_listTargets = targets;
 }
@@ -25,7 +25,7 @@ Enemy::~Enemy()
 void Enemy::LockTarget() 
 {	
 	static GLint waypointIndex = 0;
-	if (waypointIndex >= m_listTargets.size() - 1) {
+	if (waypointIndex >= m_listTargets.size()) {
 		//Endpath();
 		return;
 	}
@@ -48,10 +48,11 @@ void Enemy::SeekTarget()
 
 void Enemy::EnemyMovement(GLfloat deltatime, GLfloat speed, Vector2 moveDir)
 {
+	Vector2 deltaMove = moveDir.Normalize() * deltatime * speed;
 	Vector2 tPosition = m_target->Get2DPosition();
-	Vector2 currentFramePos = this->Get2DPosition();
-	float distanceThisFrame = sqrt(pow(tPosition.x - currentFramePos.x, 2) + pow(tPosition.y - currentFramePos.y, 2));
-	if (distanceThisFrame <= 10.f) //reached the target
+	Vector2 currentFramePos = Get2DPosition();
+	Vector2 deltaMove2 = tPosition - currentFramePos;
+	if (deltaMove2.x * deltaMove2.x <= deltaMove.x* deltaMove.x || deltaMove2.y * deltaMove2.y <= deltaMove.y * deltaMove.y) //reached the target
 	{
 		Set2DPosition(tPosition.x, tPosition.y);
 		LockTarget();	//Find new target
@@ -81,9 +82,4 @@ void Enemy::Update(GLfloat deltatime)
 			m_currentFrame = 0;
 		m_currentTime -= m_frameTime;
 	}
-}
-
-GLint Enemy::GetCurrentHealth() 
-{
-	return m_currentHealth;
 }

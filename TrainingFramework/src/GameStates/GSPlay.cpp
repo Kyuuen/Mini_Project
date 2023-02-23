@@ -89,14 +89,21 @@ void GSPlay::Init()
 	m_enemy->SetSize(240, 320);
 	m_listEnemy.push_back(m_enemy);
 
+	//Enemy
+	shader = ResourceManagers::GetInstance()->GetShader("Animation");
+	texture = ResourceManagers::GetInstance()->GetTexture("Enemy2Idle.tga");
+	std::shared_ptr<Enemy>	m_enemy2 = std::make_shared<Enemy>(model, shader, texture, 30, 120, m_listWaypoint);
+	m_enemy2->LockTarget();
+	m_enemy2->Set2DPosition(200, 100);
+	m_enemy2->SetSize(320, 320);
+	m_listEnemy.push_back(m_enemy2);
+
 	//Tower
 	shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
 	texture = ResourceManagers::GetInstance()->GetTexture("Archer Tower Front.tga");
-	std::shared_ptr<Tower> tower = std::make_shared<Tower>(model, shader, texture, 30, 1, 0, 200);
-
-	tower->m_listEnemies = m_listEnemy;
+	std::shared_ptr<Tower> tower = std::make_shared<Tower>(model, shader, texture, 3000, 1, 0, 200);
 	tower->Set2DPosition(Globals::screenWidth / 2 + 400.0, Globals::screenHeight / 2 - 200);
-	tower->SetSize(60, 80);
+	tower->SetSize(120, 120);
 	m_listTower.push_back(tower);
 }
 
@@ -184,7 +191,11 @@ void GSPlay::Update(float deltaTime)
 	default:
 		break;
 	}
-	for (auto it : m_listTower) 
+	for (auto it : m_listTower)
+	{
+		it->Update(deltaTime, m_listEnemy, m_listProjectile);
+	}
+	for (auto it : m_listProjectile) 
 	{
 		it->Update(deltaTime);
 	}
@@ -224,6 +235,10 @@ void GSPlay::Draw()
 	}
 
 	for (auto it : m_listAnimation)
+	{
+		it->Draw();
+	}
+	for (auto it : m_listProjectile) 
 	{
 		it->Draw();
 	}

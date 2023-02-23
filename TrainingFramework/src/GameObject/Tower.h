@@ -16,12 +16,13 @@ public:
 	Tower(std::shared_ptr<Model> model, std::shared_ptr<Shader> shader, std::shared_ptr<Texture> texture, GLfloat range, GLfloat fireRate, GLfloat fireCount, GLint cost);
 	~Tower();
 
-	std::shared_ptr<Enemy> m_target;
-	std::shared_ptr<Projectile>	m_bullet;
-	std::list<std::shared_ptr<Enemy>>	m_listEnemies;
+	std::shared_ptr<Enemy>				m_target;
+	std::shared_ptr<Projectile>			m_bullet;
+	bool								m_isShooted;
+	std::shared_ptr<Enemy>				m_nearestEnemy;
 	
-	void Update(GLfloat deltaTime) override;
+	void Update(GLfloat deltaTime, std::list<std::shared_ptr<Enemy>> listEnemy, std::list<std::shared_ptr<Projectile>> listBullet);
 	void UpdateTarget(std::list<std::shared_ptr<Enemy>> listEnemy);
-	void Shoot(std::shared_ptr<Projectile> bullet);
+	void Shoot(std::list<std::shared_ptr<Projectile>> listBullet);
 };
 
