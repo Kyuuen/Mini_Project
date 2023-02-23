@@ -1,6 +1,6 @@
 #include "Projectile.h"
 #include "Enemy.h"
-#include "Tower.h"
+
 
 Projectile::Projectile(std::shared_ptr<Model> model, std::shared_ptr<Shader> shader, std::shared_ptr<Texture> texture, GLfloat speed, GLint damage)
 	: Sprite2D(model, shader, texture)
