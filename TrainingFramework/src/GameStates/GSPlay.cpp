@@ -29,8 +29,10 @@ GSPlay::~GSPlay()
 void GSPlay::Init()
 {
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
-	auto texture = ResourceManagers::GetInstance()->GetTexture("bg_main_menu.tga");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("map_1.1.tga");
 
+	//Wave Spawner
+	
 	// background
 	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
 	m_background = std::make_shared<Sprite2D>(model, shader, texture);

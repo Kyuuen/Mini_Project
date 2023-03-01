@@ -76,6 +76,7 @@
     <ClCompile Include="src\GameObject\Tower.cpp" />
     <ClCompile Include="src\GameObject\Projectile.cpp" />
     <ClCompile Include="src\GameObject\Arrow.cpp" />
+    <ClCompile Include="src\GameManager\WaveSpawner.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Application.h">
@@ -142,6 +143,7 @@
     <ClInclude Include="src\GameObject\Tower.h" />
     <ClInclude Include="src\GameObject\Projectile.h" />
     <ClInclude Include="src\GameObject\Arrow.h" />
+    <ClInclude Include="src\GameManager\WaveSpawner.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

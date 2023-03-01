@@ -345,6 +345,7 @@
   <ItemGroup>
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\GameManager\ResourceManagers.cpp" />
+    <ClCompile Include="src\GameManager\WaveSpawner.cpp" />
     <ClCompile Include="src\GameObject\Arrow.cpp" />
     <ClCompile Include="src\GameObject\Enemy.cpp" />
     <ClCompile Include="src\GameObject\Font.cpp" />
@@ -371,6 +372,7 @@
     <ClInclude Include="src\GameConfig.h" />
     <ClInclude Include="src\GameManager\ResourceManagers.h" />
     <ClInclude Include="src\GameManager\Singleton.h" />
+    <ClInclude Include="src\GameManager\WaveSpawner.h" />
     <ClInclude Include="src\GameObject\Arrow.h" />
     <ClInclude Include="src\GameObject\BaseObject.h" />
     <ClInclude Include="src\GameObject\Enemy.h" />
