@@ -13,6 +13,7 @@
 #include "Enemy.h"
 #include "Tower.h"
 #include "Projectile.h"
+#include "GameObjectPool.h"
 
 
 
@@ -54,16 +55,7 @@ void GSPlay::Init()
 	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("Brightly Crush Shine.otf");
 	m_score = std::make_shared< Text>(shader, font, "score: 10", TextColor::RED, 1.0);
 	m_score->Set2DPosition(Vector2(5, 25));
-	//Enemy 2
-	/*shader = ResourceManagers::GetInstance()->GetShader("Animation");
-	texture = ResourceManagers::GetInstance()->GetTexture("Enemy2Idle.tga");
-	std::shared_ptr<SpriteAnimation> obj = std::make_shared<SpriteAnimation>(model, shader, texture, 12, 1, 0, 0.1f);
-	
-	obj->Set2DPosition(240, 400);
-	obj->SetSize(240, 320);
-
-	m_listAnimation.push_back(obj);
-	m_KeyPress = 0;*/
+	m_KeyPress = 0;
 
 	// begin waypoint
 	shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
@@ -146,7 +138,7 @@ void GSPlay::Init()
 	waypoint_8->SetSize(60, 80);
 	m_listWaypoint.push_back(waypoint_8);
 
-	// last waypoint
+	// end waypoint
 	shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
 	texture = ResourceManagers::GetInstance()->GetTexture("btn_close.tga");
 	std::shared_ptr<Sprite2D> waypoint_9 = std::make_shared<Sprite2D>(model, shader, texture);
@@ -268,7 +260,7 @@ void GSPlay::Update(float deltaTime)
 	}
 	for (auto it : m_listTower)
 	{
-		it->Update(deltaTime, m_listEnemy, m_listProjectile);
+		it->Update(deltaTime, m_listEnemy);
 	}
 	for (auto it : m_listProjectile) 
 	{

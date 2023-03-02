@@ -9,6 +9,7 @@ class SpriteAnimation;
 class Enemy;
 class Tower;
 class Projectile;
+class GameObjectPool;
 
 class GSPlay :
 	public GameStateBase
@@ -29,7 +30,7 @@ public:
 	void	HandleMouseMoveEvents(int x, int y) override;
 	void	Update(float deltaTime) override;
 	void	Draw() override;
-	int m_KeyPress;
+	int		m_KeyPress;
 
 private:
 	std::shared_ptr<Sprite2D>	m_background;
@@ -40,5 +41,6 @@ private:
 	std::list<std::shared_ptr<Enemy>>		m_listEnemy;
 	std::list<std::shared_ptr<Tower>>		m_listTower;
 	std::list<std::shared_ptr<Projectile>>	m_listProjectile;
+	GameObjectPool* projectilePool;
 };
 

@@ -12,7 +12,7 @@
 
 #include <cmath>
 
-Tower::Tower(std::shared_ptr<Model> model, std::shared_ptr<Shader> shader, std::shared_ptr<Texture> texture, GLfloat range, GLfloat fireRate, GLfloat fireCount, GLint cost)
+Tower::Tower(std::shared_ptr<Model> model, std::shared_ptr<Shader> shader, std::shared_ptr<Texture> texture, GLfloat range, GLfloat fireRate, GLfloat fireCount, GLint cost, GameObjectPool* pool)
 	: Sprite2D(model, shader, texture) 
 {
 	m_range = range;
@@ -21,6 +21,7 @@ Tower::Tower(std::shared_ptr<Model> model, std::shared_ptr<Shader> shader, std::
 	m_cost = cost;
 	m_isShooted = false;
 	m_nearestEnemy = nullptr;
+	m_projectilePool = pool;
 }
 
 Tower::~Tower() 
@@ -28,7 +29,7 @@ Tower::~Tower()
 
 }
 
-void Tower::Update(GLfloat deltaTime, std::list<std::shared_ptr<Enemy>> listEnemy, std::list<std::shared_ptr<Projectile>> listBullet)
+void Tower::Update(GLfloat deltaTime, std::list<std::shared_ptr<Enemy>> listEnemy)
 {	
 	UpdateTarget(listEnemy);
 	if (m_target == nullptr)	return;
@@ -39,7 +40,7 @@ void Tower::Update(GLfloat deltaTime, std::list<std::shared_ptr<Enemy>> listEnem
 	}
 	else
 		if(m_fireCount <= 0){
-			Shoot(listBullet);
+			Shoot();
 			m_fireCount = 1.f / m_fireRate;
 		}
 	m_fireCount -= deltaTime;
@@ -72,7 +73,7 @@ void Tower::UpdateTarget(std::list<std::shared_ptr<Enemy>> listEnemies)
 	}
 }
 
-void Tower::Shoot(std::list<std::shared_ptr<Projectile>> listBullet)
+void Tower::Shoot()
 {	
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
 	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
