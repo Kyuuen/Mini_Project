@@ -15,6 +15,7 @@ Enemy::Enemy(std::shared_ptr<Model> model, std::shared_ptr<Shader> shader, std::
 	m_currentHealth = m_maxHealth;
 	m_speed = speed;
 	m_listTargets = targets;
+	m_targetIndex = 0;
 }
 
 Enemy::~Enemy()
@@ -24,17 +25,16 @@ Enemy::~Enemy()
 
 void Enemy::LockTarget() 
 {	
-	static GLint waypointIndex = 0;
-	if (waypointIndex >= m_listTargets.size()) {
+	if (m_targetIndex >= m_listTargets.size()) {
 		//Endpath();
 		return;
 	}
 	std::list<std::shared_ptr<Sprite2D>>::iterator it = std::begin(m_listTargets);
-	std::advance(it, waypointIndex);	//move the pointer to the target's index
+	std::advance(it, m_targetIndex);	//move the pointer to the target's index
 	m_target = *it;
 
 	SeekTarget();
-	waypointIndex++;
+	m_targetIndex++;
 }
 
 void Enemy::SeekTarget()

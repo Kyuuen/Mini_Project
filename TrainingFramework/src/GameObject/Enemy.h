@@ -8,7 +8,7 @@ class Enemy : public SpriteAnimation
 private:
 	GLint	m_maxHealth;
 	GLfloat	m_speed;
-	
+	GLint	m_targetIndex;
 public:
 	Enemy(std::shared_ptr<Model> model, std::shared_ptr<Shader> shader, std::shared_ptr<Texture> texture, GLint health, GLfloat speed, std::list<std::shared_ptr<Sprite2D>> targets);
 	~Enemy();

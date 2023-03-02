@@ -29,8 +29,8 @@ void WaveSpawner::Update(GLfloat deltaTime) {
         auto texture = ResourceManagers::GetInstance()->GetTexture("Enemy2Idle.tga");
         std::shared_ptr<Enemy>	enemy = std::make_shared<Enemy>(model, shader, texture, 30, 120, m_targetWaypoints);
         enemy->LockTarget();
-        enemy->Set2DPosition(200, 100);
-        enemy->SetSize(320, 320);
+        enemy->Set2DPosition(50, 900);
+        enemy->SetSize(100, 100);
         m_listEnemies.push_back(enemy);
 
         // Reset the spawn timer

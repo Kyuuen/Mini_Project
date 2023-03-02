@@ -65,6 +65,15 @@ void GSPlay::Init()
 	m_listAnimation.push_back(obj);
 	m_KeyPress = 0;*/
 
+	// begin waypoint
+	shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+	texture = ResourceManagers::GetInstance()->GetTexture("btn_close.tga");
+	std::shared_ptr<Sprite2D> waypoint_0 = std::make_shared<Sprite2D>(model, shader, texture);
+
+	waypoint_0->Set2DPosition(0, 905);
+	waypoint_0->SetSize(60, 80);
+	m_listWaypoint.push_back(waypoint_0);
+
 	// 1st waypoint
 	shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
 	texture = ResourceManagers::GetInstance()->GetTexture("btn_close.tga");
@@ -73,6 +82,7 @@ void GSPlay::Init()
 	waypoint_1->Set2DPosition(450, 910);
 	waypoint_1->SetSize(60, 80);
 	m_listWaypoint.push_back(waypoint_1);
+
 	// 2nd waypoint
 	shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
 	texture = ResourceManagers::GetInstance()->GetTexture("btn_close.tga");
