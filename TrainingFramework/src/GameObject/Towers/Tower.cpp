@@ -32,7 +32,7 @@ Tower::~Tower()
 
 }
 
-void Tower::Update(GLfloat deltaTime, std::list<std::shared_ptr<Enemy>> listEnemy, std::list<std::shared_ptr<Projectile>> listProjectile)
+void Tower::Update(GLfloat deltaTime, std::list<std::shared_ptr<Enemy>> listEnemy)
 {	
 	UpdateTarget(listEnemy);
 	if (m_target == nullptr)	return;
@@ -43,7 +43,6 @@ void Tower::Update(GLfloat deltaTime, std::list<std::shared_ptr<Enemy>> listEnem
 	}
 	else
 		if(m_fireCount <= 0){
-			listProjectile.push_back(ShootProjectile());
 			m_fireCount = 1.f / m_fireRate;
 		}
 	m_fireCount -= deltaTime;
@@ -76,12 +75,12 @@ void Tower::UpdateTarget(std::list<std::shared_ptr<Enemy>> listEnemies)
 	}
 }
 
-std::shared_ptr<Projectile> Tower::ShootProjectile() 
+std::shared_ptr<Arrow> Tower::ShootArrow() 
 {
-	std::shared_ptr<Projectile> projectile = ProjectilePooling::GetInstance()->GetFromPool();
-	if (projectile != nullptr)
+	std::shared_ptr<Arrow> arrow = ArrowPooling::GetInstance()->GetFromPool();
+	if (arrow != nullptr)
 	{
-
+		arrow->SetPosition(m_position);
 	}
-	return projectile;
+	return arrow;
 }

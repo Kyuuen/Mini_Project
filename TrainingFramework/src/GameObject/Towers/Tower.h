@@ -1,9 +1,10 @@
 #pragma once
 #include "Sprite2D.h"
 #include "Enemy.h"
-#include "Projectiles/Projectile.h"
-#include "GamePool/ProjectilePooling.h"
+#include "Projectiles/Arrow.h"
+#include "GamePool/ArrowPooling.h"
 #include "ResourceManagers.h"
+#include <iostream>
 class Enemy;
 class Tower	:	public Sprite2D, public std::enable_shared_from_this<Tower>
 {
@@ -24,9 +25,10 @@ public:
 	std::shared_ptr<Projectile>		m_bullet;
 	bool							m_isShooted;
 	std::shared_ptr<Enemy>			m_nearestEnemy;
+	GLint							m_towerIndex;
 	
-	void Update(GLfloat deltaTime, std::list<std::shared_ptr<Enemy>> listEnemy, std::list<std::shared_ptr<Projectile>> listProjectile);
+	void Update(GLfloat deltaTime, std::list<std::shared_ptr<Enemy>> listEnemy);
 	void UpdateTarget(std::list<std::shared_ptr<Enemy>> listEnemy);
-	std::shared_ptr<Projectile>		ShootProjectile();
+	std::shared_ptr<Arrow>		ShootArrow();
 };
 

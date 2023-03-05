@@ -9,7 +9,6 @@ class SpriteAnimation;
 class Enemy;
 class Tower;
 class Projectile;
-class GameObjectPool;
 
 class GSPlay :
 	public GameStateBase
@@ -41,6 +40,5 @@ private:
 	std::list<std::shared_ptr<Enemy>>		m_listEnemy;
 	std::list<std::shared_ptr<Tower>>		m_listTower;
 	std::list<std::shared_ptr<Projectile>>	m_listProjectile;
-	GameObjectPool* projectilePool;
 };
 

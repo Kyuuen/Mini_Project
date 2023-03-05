@@ -73,11 +73,12 @@
       <Filter>TrainingFramework\src\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="src\GameObject\Enemy.cpp" />
-    <ClCompile Include="src\GameObject\Tower.cpp" />
-    <ClCompile Include="src\GameObject\Projectile.cpp" />
+    <ClCompile Include="src\GameObject\Towers\Tower.cpp" />
+    <ClCompile Include="src\GameObject\Projectiles\Projectile.cpp" />
     <ClCompile Include="src\GameManager\WaveSpawner.cpp" />
     <ClCompile Include="src\GameObject\Node.cpp" />
-    <ClCompile Include="src\GameStates\GameObjectPool.cpp" />
+    <ClCompile Include="src\GamePool\ProjectilePooling.cpp" />
+    <ClCompile Include="src\GamePool\ArrowPooling.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Application.h">
@@ -141,12 +142,16 @@
       <Filter>TrainingFramework\src\GameObject</Filter>
     </ClInclude>
     <ClInclude Include="src\GameObject\Enemy.h" />
-    <ClInclude Include="src\GameObject\Tower.h" />
-    <ClInclude Include="src\GameObject\Projectile.h" />
-    <ClInclude Include="src\GameObject\Arrow.h" />
+    <ClInclude Include="src\GameObject\Towers\Tower.h" />
+    <ClInclude Include="src\GameObject\Projectiles\Projectile.h" />
+    <ClInclude Include="src\GameObject\Projectiles\Arrow.h" />
     <ClInclude Include="src\GameManager\WaveSpawner.h" />
     <ClInclude Include="src\GameObject\Node.h" />
-    <ClInclude Include="src\GameStates\GameObjectPool.h" />
+    <ClInclude Include="src\GamePool\GameObjectPool.h" />
+    <ClInclude Include="src\GamePool\PoolableObject.h" />
+    <ClInclude Include="src\GamePool\ProjectilePooling.h" />
+    <ClInclude Include="src\GameObject\Towers\ArcherTower.h" />
+    <ClInclude Include="src\GamePool\ArrowPooling.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

@@ -11,10 +11,8 @@
 #include "GameButton.h"
 #include "SpriteAnimation.h"
 #include "Enemy.h"
-#include "Tower.h"
-#include "Projectile.h"
-#include "GameObjectPool.h"
-
+#include "Towers/ArcherTower.h"
+#include "Projectiles/Projectile.h"
 
 
 GSPlay::GSPlay()
@@ -166,9 +164,7 @@ void GSPlay::Init()
 	m_listEnemy.push_back(m_enemy2);
 
 	//Tower
-	shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
-	texture = ResourceManagers::GetInstance()->GetTexture("Archer Tower Front.tga");
-	std::shared_ptr<Tower> tower = std::make_shared<Tower>(model, shader, texture, 3000, 1, 0, 200);
+	std::shared_ptr<ArcherTower> tower = std::make_shared<ArcherTower>();
 	tower->Set2DPosition(Globals::screenWidth / 2 + 400.0, Globals::screenHeight / 2 - 200);
 	tower->SetSize(120, 120);
 	m_listTower.push_back(tower);

@@ -8,13 +8,14 @@ public:
 	{
 		auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
 		auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
-		auto texture = ResourceManagers::GetInstance()->GetShader("Archer Tower Front.tga");
+		auto texture = ResourceManagers::GetInstance()->GetTexture("Archer Tower Front.tga");
 		auto sprite = std::make_shared<Sprite2D>(model, shader, texture);
 		m_sprite = sprite;
 		m_range = 70;
 		m_fireRate = 2;
 		m_fireCount = 0;
 		m_cost = 100;
+		m_towerIndex = 1;
 	};
 	~ArcherTower() {};
 };

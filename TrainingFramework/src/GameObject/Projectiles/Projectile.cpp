@@ -1,6 +1,10 @@
 #include "Projectile.h"
 #include "Enemy.h"
 
+Projectile::Projectile() 
+{
+
+}
 
 Projectile::Projectile(std::shared_ptr<Model> model, std::shared_ptr<Shader> shader, std::shared_ptr<Texture> texture, GLfloat speed, GLint damage)
 	: Sprite2D(model, shader, texture)
@@ -33,6 +37,7 @@ void Projectile::HitTarget(GLfloat deltaTime, GLfloat speed)
 	Vector2 deltaMove = deltaMove2.Normalize() * deltaTime * speed;
 	if (deltaMove2.x * deltaMove2.x <= deltaMove.x * deltaMove.x || deltaMove2.y * deltaMove2.y <= deltaMove.y * deltaMove.y) //reached the target
 	{
+		//And deal damage
 		Set2DPosition(tPosition.x, tPosition.y);
 		return;
 	}
