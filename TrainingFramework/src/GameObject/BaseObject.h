@@ -62,6 +62,10 @@ public:
 		m_worldMatrix = S * R * T;
 	}
 
+	void		DisableEntity() { m_isEnable = false; };
+	void		EnableEntity() { m_isEnable = true; };
+	bool		IsEnable() { return m_isEnable; };
+
 protected:
 	Vector3			m_position;
 	Vector3			m_scale;
@@ -73,6 +77,7 @@ protected:
 	std::shared_ptr<Shader>		m_pShader;
 	std::shared_ptr<Texture>	m_pTexture;
 	std::shared_ptr<Camera>		m_pCamera;
+	bool						m_isEnable;
 
 private:
 	GLint			m_id;
