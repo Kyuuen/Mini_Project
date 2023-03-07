@@ -7,7 +7,6 @@
 #include "Application.h"
 #include "Sprite2D.h"
 #include "GameManager/ResourceManagers.h"
-#include "Projectiles/Projectile.h"
 #include "Enemy.h"
 
 #include <cmath>
@@ -32,7 +31,7 @@ Tower::~Tower()
 
 }
 
-void Tower::Update(GLfloat deltaTime, std::list<std::shared_ptr<Enemy>> listEnemy)
+void Tower::Update(GLfloat deltaTime, std::list<std::shared_ptr<Enemy>> listEnemy, std::list < std::shared_ptr<Arrow>>& listArrow)
 {	
 	UpdateTarget(listEnemy);
 	if (m_target == nullptr)	return;
@@ -43,6 +42,9 @@ void Tower::Update(GLfloat deltaTime, std::list<std::shared_ptr<Enemy>> listEnem
 	}
 	else
 		if(m_fireCount <= 0){
+			std::shared_ptr<Arrow> arrow = ShootArrow();
+			arrow->Seek(m_target);
+			listArrow.push_back(arrow);
 			m_fireCount = 1.f / m_fireRate;
 		}
 	m_fireCount -= deltaTime;
@@ -81,6 +83,13 @@ std::shared_ptr<Arrow> Tower::ShootArrow()
 	if (arrow != nullptr)
 	{
 		arrow->SetPosition(m_position);
+		arrow->m_sprite->SetPosition(m_position);
 	}
 	return arrow;
+}
+
+void Tower::Reset() 
+{
+	this->DisableObject();
+	m_position;
 }

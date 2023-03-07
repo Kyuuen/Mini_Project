@@ -9,7 +9,7 @@
 #include <math.h>
 
 Enemy::Enemy(std::shared_ptr<Model> model, std::shared_ptr<Shader> shader, std::shared_ptr<Texture> texture, GLint maxHealth, GLfloat speed, std::list<std::shared_ptr<Sprite2D>> targets)
-	:SpriteAnimation(model, shader, texture, 12, 1, 0, 0.1f)
+	:SpriteAnimation(model, shader, texture, 18, 1, 0, 0.1f)
 {
 	m_maxHealth = maxHealth;
 	m_currentHealth = m_maxHealth;

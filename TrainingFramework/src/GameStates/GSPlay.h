@@ -1,5 +1,7 @@
 #pragma once
 #include "GameStateBase.h"
+#include "Towers/ArcherTower.h"
+#include "GamePool/TowerPooling.h"
 
 class Sprite2D;
 class Sprite3D;
@@ -22,6 +24,7 @@ public:
 
 	void	Pause() override;
 	void	Resume() override;
+	void	BuildTower();
 
 	void	HandleEvents() override;
 	void	HandleKeyEvents(int key, bool bIsPressed) override;
@@ -38,7 +41,7 @@ private:
 	std::list<std::shared_ptr<SpriteAnimation>>	m_listAnimation;
 	std::list<std::shared_ptr<Sprite2D>>	m_listWaypoint;
 	std::list<std::shared_ptr<Enemy>>		m_listEnemy;
-	std::list<std::shared_ptr<Tower>>		m_listTower;
-	std::list<std::shared_ptr<Projectile>>	m_listProjectile;
+	std::list<std::shared_ptr<ArcherTower>>		m_listTower;
+	std::list<std::shared_ptr<Arrow>>		m_listArrow;
 };
 

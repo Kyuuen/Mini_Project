@@ -62,8 +62,8 @@ public:
 		m_worldMatrix = S * R * T;
 	}
 
-	void		DisableEntity() { m_isEnable = false; };
-	void		EnableEntity() { m_isEnable = true; };
+	void		DisableObject() { m_isEnable = false; };
+	void		EnableObject() { m_isEnable = true; };
 	bool		IsEnable() { return m_isEnable; };
 
 protected:

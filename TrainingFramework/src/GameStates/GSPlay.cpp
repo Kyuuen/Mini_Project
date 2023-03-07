@@ -147,7 +147,7 @@ void GSPlay::Init()
 
 	//Enemy1
 	shader = ResourceManagers::GetInstance()->GetShader("Animation");
-	texture = ResourceManagers::GetInstance()->GetTexture("Enemy2Idle.tga");
+	texture = ResourceManagers::GetInstance()->GetTexture("enemy2walking_02.tga");
 	std::shared_ptr<Enemy>	m_enemy = std::make_shared<Enemy>(model, shader, texture, 30, 100, m_listWaypoint);
 	m_enemy->LockTarget();
 	m_enemy->Set2DPosition(50, 900);
@@ -156,7 +156,7 @@ void GSPlay::Init()
 
 	//Enemy2
 	shader = ResourceManagers::GetInstance()->GetShader("Animation");
-	texture = ResourceManagers::GetInstance()->GetTexture("Enemy2Idle.tga");
+	texture = ResourceManagers::GetInstance()->GetTexture("enemy2walking_02.tga");
 	std::shared_ptr<Enemy>	m_enemy2 = std::make_shared<Enemy>(model, shader, texture, 30, 120, m_listWaypoint);
 	m_enemy2->LockTarget();
 	m_enemy2->Set2DPosition(50, 900);
@@ -167,6 +167,8 @@ void GSPlay::Init()
 	std::shared_ptr<ArcherTower> tower = std::make_shared<ArcherTower>();
 	tower->Set2DPosition(Globals::screenWidth / 2 + 400.0, Globals::screenHeight / 2 - 200);
 	tower->SetSize(120, 120);
+	tower->m_sprite->Set2DPosition(Globals::screenWidth / 2, Globals::screenHeight / 2);
+	tower->m_sprite->SetSize(120, 120);
 	m_listTower.push_back(tower);
 }
 
@@ -256,9 +258,9 @@ void GSPlay::Update(float deltaTime)
 	}
 	for (auto it : m_listTower)
 	{
-		it->Update(deltaTime, m_listEnemy);
+		it->Update(deltaTime, m_listEnemy, m_listArrow);
 	}
-	for (auto it : m_listProjectile) 
+	for (auto it : m_listArrow) 
 	{
 		it->Update(deltaTime);
 	}
@@ -282,7 +284,7 @@ void GSPlay::Draw()
 	m_score->Draw();
 	for (auto it : m_listTower) 
 	{
-		it->Draw();
+		it->m_sprite->Draw();
 	}
 	for (auto it : m_listEnemy) 
 	{
@@ -297,8 +299,8 @@ void GSPlay::Draw()
 	{
 		it->Draw();
 	}
-	for (auto it : m_listProjectile) 
+	for (auto it : m_listArrow) 
 	{
-		it->Draw();
+		it->m_sprite->Draw();
 	}
 }

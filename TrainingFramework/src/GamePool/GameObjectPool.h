@@ -20,7 +20,7 @@ public:
         if (!pool.empty())
         {
             std::shared_ptr<T> object = pool.front();
-            object->EnableEntity();
+            object->EnableObject();
             pool.pop_front();
             return object;
         }

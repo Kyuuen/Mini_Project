@@ -1,7 +1,7 @@
 #pragma once
 #include "BaseObject.h"
 
-class Sprite2D : public BaseObject
+class Sprite2D : public BaseObject, public std::enable_shared_from_this<Sprite2D>
 {
 protected:
 	GLint		m_iWidth;

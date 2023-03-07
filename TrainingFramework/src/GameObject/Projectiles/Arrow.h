@@ -16,5 +16,6 @@ public:
 		m_damage = 10;
 	};
 	~Arrow() {};
+	void Reset() override {};
 };
 
