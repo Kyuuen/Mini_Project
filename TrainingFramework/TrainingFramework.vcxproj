@@ -361,7 +361,6 @@
     <ClCompile Include="src\GameObject\Texture.cpp" />
     <ClCompile Include="src\GameObject\Towers\Tower.cpp" />
     <ClCompile Include="src\GamePool\ArrowPooling.cpp" />
-    <ClCompile Include="src\GamePool\ProjectilePooling.cpp" />
     <ClCompile Include="src\GamePool\TowerPooling.cpp" />
     <ClCompile Include="src\GameStates\GameStateBase.cpp" />
     <ClCompile Include="src\GameStates\GameStateMachine.cpp" />
@@ -396,7 +395,6 @@
     <ClInclude Include="src\GamePool\ArrowPooling.h" />
     <ClInclude Include="src\GamePool\GameObjectPool.h" />
     <ClInclude Include="src\GamePool\PoolableObject.h" />
-    <ClInclude Include="src\GamePool\ProjectilePooling.h" />
     <ClInclude Include="src\GamePool\TowerPooling.h" />
     <ClInclude Include="src\GameStates\GameStateBase.h" />
     <ClInclude Include="src\GameStates\GameStateMachine.h" />

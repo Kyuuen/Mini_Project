@@ -42,9 +42,7 @@ void Tower::Update(GLfloat deltaTime, std::list<std::shared_ptr<Enemy>> listEnem
 	}
 	else
 		if(m_fireCount <= 0){
-			std::shared_ptr<Arrow> arrow = ShootArrow();
-			arrow->Seek(m_target);
-			listArrow.push_back(arrow);
+			listArrow.push_back(ShootArrow());
 			m_fireCount = 1.f / m_fireRate;
 		}
 	m_fireCount -= deltaTime;
@@ -83,7 +81,7 @@ std::shared_ptr<Arrow> Tower::ShootArrow()
 	if (arrow != nullptr)
 	{
 		arrow->SetPosition(m_position);
-		arrow->m_sprite->SetPosition(m_position);
+		arrow->Seek(m_target);
 	}
 	return arrow;
 }

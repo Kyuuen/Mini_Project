@@ -13,8 +13,6 @@ public:
 		m_pModel = model;
 		m_pShader = shader;
 		m_pTexture = texture;
-		auto sprite = std::make_shared<Sprite2D>(model, shader, texture);
-		m_sprite = sprite;
 		m_speed = 70;
 		m_damage = 10;
 	};

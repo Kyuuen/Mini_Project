@@ -170,8 +170,7 @@ void GSPlay::Init()
 		if (archerTower != nullptr)
 		{
 			archerTower->Set2DPosition(690, 700);
-			archerTower->m_sprite->Set2DPosition(690, 700);
-			archerTower->m_sprite->SetSize(120, 120);
+			archerTower->SetSize(120, 120);
 		}
 		m_listTower.push_back(archerTower);
 	});
@@ -186,8 +185,7 @@ void GSPlay::Init()
 		if (archerTower != nullptr)
 		{
 			archerTower->Set2DPosition(1060, 500);
-			archerTower->m_sprite->Set2DPosition(1060, 500);
-			archerTower->m_sprite->SetSize(120, 120);
+			archerTower->SetSize(120, 120);
 		}
 		m_listTower.push_back(archerTower);
 	});
@@ -202,8 +200,7 @@ void GSPlay::Init()
 		if (archerTower != nullptr)
 		{
 			archerTower->Set2DPosition(270, 370);
-			archerTower->m_sprite->Set2DPosition(270, 370);
-			archerTower->m_sprite->SetSize(120, 120);
+			archerTower->SetSize(120, 120);
 		}
 		m_listTower.push_back(archerTower);
 	});
@@ -218,8 +215,7 @@ void GSPlay::Init()
 		if (archerTower != nullptr)
 		{
 			archerTower->Set2DPosition(625, 230);
-			archerTower->m_sprite->Set2DPosition(625, 230);
-			archerTower->m_sprite->SetSize(120, 120);
+			archerTower->SetSize(120, 120);
 		}
 		m_listTower.push_back(archerTower);
 	});
@@ -234,11 +230,11 @@ void GSPlay::Init()
 		if (archerTower != nullptr)
 		{
 			archerTower->Set2DPosition(390, 600);
-			archerTower->m_sprite->Set2DPosition(390, 600);
-			archerTower->m_sprite->SetSize(120, 120);
+			archerTower->SetSize(120, 120);
 		}
 		m_listTower.push_back(archerTower);
-		});
+	});
+
 }
 
 void GSPlay::Exit()
@@ -373,11 +369,11 @@ void GSPlay::Draw()
 	}
 	for (auto it : m_listTower)
 	{
-		it->m_sprite->Draw();
+		it->Draw();
 	}
 	for (auto it : m_listArrow)
 	{
-		it->m_sprite->Draw();
+		it->Draw();
 	}
 	for (auto it : m_listButton)
 	{
