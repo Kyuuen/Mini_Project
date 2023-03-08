@@ -62,8 +62,7 @@ void LoadCompressedImage(char* pDest, char* pSrc, TGA_HEADER* pHeader)
 		}
 		else
 		{
-			int chunkSize = chunk - 127;
-			for (int i = 0; i < chunkSize; i++)
+			int chunkSize = chunk - 127;			for (int i = 0; i < chunkSize; i++)
 			{
 				if (bInverted && (countPixels % w) == 0)
 					pDestPtr -= 2 * rowSize;

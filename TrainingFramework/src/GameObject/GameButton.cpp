@@ -45,3 +45,11 @@ bool GameButton::IsHolding()
 {
 	return m_isHolding;
 }
+
+Vector2 GameButton::Get2DPosition()
+{
+	Vector2 pos;
+	pos.x = m_position.x;
+	pos.y = m_position.y;
+	return pos;
+}

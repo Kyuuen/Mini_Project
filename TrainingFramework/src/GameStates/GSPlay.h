@@ -24,7 +24,6 @@ public:
 
 	void	Pause() override;
 	void	Resume() override;
-	void	BuildTower();
 
 	void	HandleEvents() override;
 	void	HandleKeyEvents(int key, bool bIsPressed) override;
@@ -44,5 +43,6 @@ private:
 	std::list<std::shared_ptr<Enemy>>		m_listEnemy;
 	std::list<std::shared_ptr<ArcherTower>>		m_listTower;
 	std::list<std::shared_ptr<Arrow>>		m_listArrow;
+	std::list<std::shared_ptr<GameButton>>	m_listNode;
 };
 
