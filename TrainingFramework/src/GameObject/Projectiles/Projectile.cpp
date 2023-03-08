@@ -55,5 +55,5 @@ void Projectile::HitTarget(GLfloat deltaTime, GLfloat speed)
 void Projectile::Reset() 
 {
 	this->DisableObject();
-	m_position = 0;
+	this->Set2DPosition(0, 0);
 }
