@@ -38,16 +38,37 @@ void GSPlay::Init()
 	m_background->Set2DPosition((float)Globals::screenWidth / 2, (float)Globals::screenHeight / 2);
 	m_background->SetSize(Globals::screenWidth, Globals::screenHeight);
 
-	// button close
-	texture = ResourceManagers::GetInstance()->GetTexture("btn_close.tga");
+	// button pause
+	texture = ResourceManagers::GetInstance()->GetTexture("stop_button.tga");
 	std::shared_ptr<GameButton>  button = std::make_shared<GameButton>(model, shader, texture);
 	button->Set2DPosition(Globals::screenWidth - 50.0, 50.0);
 	button->SetSize(50, 50);
-	button->SetOnClick([this]() {
-			GameStateMachine::GetInstance()->PopState();
-		});
 	m_listButton.push_back(button);
-
+	button->SetOnClick([this]() {
+		m_isPause = true;
+		//continue
+		auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
+		auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+		auto texture = ResourceManagers::GetInstance()->GetTexture("play_button.tga");
+		std::shared_ptr<GameButton>  Continue = std::make_shared<GameButton>(model, shader, texture);
+		Continue->Set2DPosition(Globals::screenWidth / 2 - 50, Globals::screenWidth / 2);
+		Continue->SetSize(50, 50);
+		m_listButton.push_back(Continue);
+		//exit 
+		texture = ResourceManagers::GetInstance()->GetTexture("cancel_button.tga");
+		std::shared_ptr<GameButton>  Exit = std::make_shared<GameButton>(model, shader, texture);
+		Exit->Set2DPosition(Globals::screenWidth / 2 + 50, Globals::screenWidth / 2);
+		Exit->SetSize(50, 50);
+		Continue->SetOnClick([this]() {
+			m_isPause = false;
+			m_listButton.pop_back();
+			m_listButton.pop_back();
+		});
+		m_listButton.push_back(Exit);
+		Exit->SetOnClick([this]() {
+		GameStateMachine::GetInstance()->PopState();
+		});
+	});
 	// score
 	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
 	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("Brightly Crush Shine.otf");
@@ -256,26 +277,30 @@ void GSPlay::Update(float deltaTime)
 	default:
 		break;
 	}
-	for (auto it : m_listTower)
+	if (m_isPause == false)
 	{
-		it->Update(deltaTime, m_listEnemy, m_listArrow);
-	}
-	for (auto it : m_listArrow) 
-	{
-		it->Update(deltaTime);
-	}
-	for (auto it : m_listEnemy) 
-	{
-		it->Update(deltaTime);
+		for (auto it : m_listTower)
+		{
+			it->Update(deltaTime, m_listEnemy, m_listArrow);
+		}
+		for (auto it : m_listArrow)
+		{
+			it->Update(deltaTime);
+		}
+		for (auto it : m_listEnemy)
+		{
+			it->Update(deltaTime);
+		}
+		for (auto it : m_listAnimation)
+		{
+			it->Update(deltaTime);
+		}
 	}
 	for (auto it : m_listButton)
 	{
 		it->Update(deltaTime);
 	}
-	for (auto it : m_listAnimation)
-	{
-		it->Update(deltaTime);
-	}
+	
 }
 
 void GSPlay::Draw()

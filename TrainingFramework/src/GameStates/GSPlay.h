@@ -35,6 +35,7 @@ public:
 	int		m_KeyPress;
 
 private:
+	GLboolean m_isPause;
 	std::shared_ptr<Sprite2D>	m_background;
 	std::shared_ptr<Text>		m_score;
 	std::list<std::shared_ptr<GameButton>>	m_listButton;
