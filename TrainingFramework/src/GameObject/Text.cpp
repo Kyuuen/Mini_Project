@@ -112,6 +112,8 @@ void Text::Draw()
 
 void Text::Update(GLfloat deltatime)
 {
+	if(m_type == 1) m_text = "$" + std::to_string(GameMaster::GetInstance()->GetCurrentMoney());
+	else m_text = "Health: " + std::to_string(GameMaster::GetInstance()->GetCurrentHealth());
 }
 
 

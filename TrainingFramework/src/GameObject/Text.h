@@ -1,5 +1,6 @@
 #pragma once
 #include "BaseObject.h"
+#include "GameManager/GameMaster.h"
 
 enum class TextColor {
 	WHITE = 0,
@@ -32,6 +33,7 @@ public:
 	Text(std::shared_ptr<Shader> shader, std::shared_ptr<Font> font, std::string text, Vector4 color, float size, TextAlign align = TextAlign::LEFT);
 	Text(std::shared_ptr<Shader> shader, std::shared_ptr<Font> font, std::string text, std::shared_ptr<Texture> texture, float size, TextAlign align = TextAlign::LEFT);
 	~Text();
+	GLint		m_type;
 
 	void		Init() override;
 	void		Draw() final;
