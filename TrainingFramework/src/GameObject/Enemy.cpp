@@ -5,9 +5,20 @@
 #include "Camera.h"
 #include "Texture.h"
 #include "Application.h"
+#include "GameManager/ResourceManagers.h"
 
 #include <math.h>
 
+Enemy::Enemy() : SpriteAnimation()
+{	
+	m_isEnable = false;
+	m_maxHealth = 30;
+	m_currentHealth = m_maxHealth;
+	m_speed = 100;
+	m_targetIndex = 0;
+	Set2DPosition(50, 900);
+	SetSize(70, 70);
+}
 Enemy::Enemy(std::shared_ptr<Model> model, std::shared_ptr<Shader> shader, std::shared_ptr<Texture> texture, GLint maxHealth, GLfloat speed, std::list<std::shared_ptr<Sprite2D>> targets)
 	:SpriteAnimation(model, shader, texture, 18, 1, 0, 0.1f)
 {
@@ -26,7 +37,7 @@ Enemy::~Enemy()
 void Enemy::LockTarget() 
 {	
 	if (m_targetIndex >= m_listTargets.size()) {
-		//Endpath();
+		Reset();
 		return;
 	}
 	std::list<std::shared_ptr<Sprite2D>>::iterator it = std::begin(m_listTargets);
@@ -82,4 +93,11 @@ void Enemy::Update(GLfloat deltatime)
 			m_currentFrame = 0;
 		m_currentTime -= m_frameTime;
 	}
+}
+
+void Enemy::Reset() 
+{
+	this->DisableObject();
+	Set2DPosition(0, 0);
+	//Reduce player's health
 }

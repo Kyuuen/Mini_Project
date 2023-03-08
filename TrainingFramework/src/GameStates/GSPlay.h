@@ -24,7 +24,7 @@ public:
 
 	void	Pause() override;
 	void	Resume() override;
-
+	void	GameOver();
 	void	HandleEvents() override;
 	void	HandleKeyEvents(int key, bool bIsPressed) override;
 	void	HandleTouchEvents(int x, int y, bool bIsPressed) override;
@@ -34,9 +34,13 @@ public:
 	int		m_KeyPress;
 
 private:
+	GLboolean m_isOver;
 	GLboolean m_isPause;
+	std::shared_ptr<Sprite2D>	m_gameOver;
 	std::shared_ptr<Sprite2D>	m_background;
 	std::shared_ptr<Text>		m_score;
+	std::shared_ptr<Text>		m_gameOverText;
+	std::list<std::shared_ptr<GameButton>>	m_exitButton;
 	std::list<std::shared_ptr<GameButton>>	m_listButton;
 	std::list<std::shared_ptr<SpriteAnimation>>	m_listAnimation;
 	std::list<std::shared_ptr<Sprite2D>>	m_listWaypoint;

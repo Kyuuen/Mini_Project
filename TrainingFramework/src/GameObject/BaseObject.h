@@ -77,7 +77,7 @@ protected:
 	std::shared_ptr<Shader>		m_pShader;
 	std::shared_ptr<Texture>	m_pTexture;
 	std::shared_ptr<Camera>		m_pCamera;
-	bool						m_isEnable;
+	bool						m_isEnable = true;
 
 private:
 	GLint			m_id;

@@ -27,6 +27,7 @@ GSPlay::~GSPlay()
 
 void GSPlay::Init()
 {
+	m_isOver = false;
 	m_isPause = false;
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
 	auto texture = ResourceManagers::GetInstance()->GetTexture("map_1.1.tga");
@@ -52,24 +53,28 @@ void GSPlay::Init()
 		auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
 		auto texture = ResourceManagers::GetInstance()->GetTexture("play_button.tga");
 		std::shared_ptr<GameButton>  Continue = std::make_shared<GameButton>(model, shader, texture);
-		Continue->Set2DPosition(Globals::screenWidth / 2 - 50, Globals::screenWidth / 2);
+		Continue->Set2DPosition(Globals::screenWidth/2 - 50, Globals::screenWidth / 2 );
 		Continue->SetSize(50, 50);
 		m_listButton.push_back(Continue);
-		//exit 
+		//exit
 		texture = ResourceManagers::GetInstance()->GetTexture("cancel_button.tga");
 		std::shared_ptr<GameButton>  Exit = std::make_shared<GameButton>(model, shader, texture);
 		Exit->Set2DPosition(Globals::screenWidth / 2 + 50, Globals::screenWidth / 2);
 		Exit->SetSize(50, 50);
-		Continue->SetOnClick([this]() {
+		Continue->SetOnClick([this]() 
+		{
 			m_isPause = false;
 			m_listButton.pop_back();
 			m_listButton.pop_back();
 		});
 		m_listButton.push_back(Exit);
-		Exit->SetOnClick([this]() {
-		GameStateMachine::GetInstance()->PopState();
+		Exit->SetOnClick([this]() 
+		{
+			GameStateMachine::GetInstance()->PopState();
 		});
 	});
+
+
 	// score
 	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
 	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("SuperMario256.ttf");
@@ -157,6 +162,14 @@ void GSPlay::Init()
 	m_enemy->Set2DPosition(50, 900);
 	m_enemy->SetSize(70, 70);
 	m_listEnemy.push_back(m_enemy);
+
+	std::shared_ptr<ArcherTower> archerTower = TowerPooling::GetInstance()->GetFromPool();
+	if (archerTower != nullptr)
+	{
+		archerTower->Set2DPosition(690, 700);
+		archerTower->SetSize(120, 120);
+	}
+	m_listTower.push_back(archerTower);
 
 	//Node
 	shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
@@ -250,7 +263,34 @@ void GSPlay::Resume()
 {
 }
 
+void GSPlay::GameOver()
+{
+	//back ground game over
+	m_isPause = true;
+	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
+	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+	auto texture = ResourceManagers::GetInstance()->GetTexture("bg_main_menu.tga");
+	m_gameOver = std::make_shared<Sprite2D>(model, shader, texture);
+	m_gameOver->Set2DPosition((float)Globals::screenWidth / 2, (float)Globals::screenHeight / 2);
+	m_gameOver->SetSize(Globals::screenWidth, Globals::screenHeight);
+	//text
+	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
+	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("Brightly Crush Shine.otf");
+	m_gameOverText = std::make_shared< Text>(shader, font, "Game Over!", TextColor::RED, 1.0);
+	m_gameOverText->Set2DPosition(Vector2((float)Globals::screenWidth / 2, (float)Globals::screenHeight / 2 + 50));
 
+	//home button
+	shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
+	texture = ResourceManagers::GetInstance()->GetTexture("play_button.tga");
+	std::shared_ptr<GameButton>  home = std::make_shared<GameButton>(model, shader, texture);
+	home->Set2DPosition((float)Globals::screenWidth / 2, (float)Globals::screenHeight / 2);
+	home->SetSize(50, 50);
+	m_exitButton.push_back(home);
+	home->SetOnClick([this]() {
+		GameStateMachine::GetInstance()->PopState();
+	});
+	
+}
 void GSPlay::HandleEvents()
 {
 }
@@ -349,6 +389,14 @@ void GSPlay::Update(float deltaTime)
 	{
 		it->Update(deltaTime);
 	}
+	if (m_isOver)
+	{
+		GameOver();
+		for (auto it : m_exitButton)
+		{
+			it->Update(deltaTime);
+		}
+	}
 }
 
 void GSPlay::Draw()
@@ -378,5 +426,14 @@ void GSPlay::Draw()
 	for (auto it : m_listButton)
 	{
 		it->Draw();
+	}
+	if (m_isOver)
+	{
+		m_gameOver->Draw();
+		m_gameOverText->Draw();
+		for (auto it : m_exitButton)
+		{
+			it->Draw();
+		}
 	}
 }

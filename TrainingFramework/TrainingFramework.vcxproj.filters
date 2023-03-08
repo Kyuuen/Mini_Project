@@ -79,6 +79,7 @@
     <ClCompile Include="src\GameObject\Node.cpp" />
     <ClCompile Include="src\GamePool\ArrowPooling.cpp" />
     <ClCompile Include="src\GamePool\TowerPooling.cpp" />
+    <ClCompile Include="src\GamePool\EnemyPooling.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Application.h">
@@ -152,6 +153,7 @@
     <ClInclude Include="src\GameObject\Towers\ArcherTower.h" />
     <ClInclude Include="src\GamePool\ArrowPooling.h" />
     <ClInclude Include="src\GamePool\TowerPooling.h" />
+    <ClInclude Include="src\GamePool\EnemyPooling.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

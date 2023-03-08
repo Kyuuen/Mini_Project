@@ -5,6 +5,22 @@
 #include "Camera.h"
 #include "Texture.h"
 #include "Application.h"
+#include "GameManager/ResourceManagers.h"
+
+SpriteAnimation::SpriteAnimation() 
+{
+	m_pModel = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
+	m_pShader = ResourceManagers::GetInstance()->GetShader("Animation");
+	m_pTexture = ResourceManagers::GetInstance()->GetTexture("enemy2walking_02.tga");
+	m_numFrames = 18;
+	m_numActions = 1;
+	m_frameTime = 0.1f;
+	m_currentAction = 0;
+	m_currentFrame = 0;
+	m_currentAction = 0;
+	m_currentTime = 0.0f;
+	Init();
+}
 
 SpriteAnimation::SpriteAnimation(std::shared_ptr<Model> model, std::shared_ptr<Shader> shader, std::shared_ptr<Texture> texture, GLint numFrames, GLint numActions, GLint currentAction, GLfloat frameTime)
 	: BaseObject(-1, model, shader, texture), m_iWidth(100), m_iHeight(50)
