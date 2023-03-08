@@ -2,6 +2,8 @@
 #include "GameStateBase.h"
 #include "Towers/ArcherTower.h"
 #include "GamePool/TowerPooling.h"
+#include "GameManager/WaveSpawner.h"
+#include "GameManager/GameMaster.h"
 
 class Sprite2D;
 class Sprite3D;
@@ -38,7 +40,9 @@ private:
 	GLboolean m_isPause;
 	std::shared_ptr<Sprite2D>	m_gameOver;
 	std::shared_ptr<Sprite2D>	m_background;
-	std::shared_ptr<Text>		m_score;
+	std::shared_ptr<Text>		m_money;
+	std::shared_ptr<Text>		m_health;
+	std::shared_ptr<Text>		m_pauseText;
 	std::shared_ptr<Text>		m_gameOverText;
 	std::list<std::shared_ptr<GameButton>>	m_exitButton;
 	std::list<std::shared_ptr<GameButton>>	m_listButton;

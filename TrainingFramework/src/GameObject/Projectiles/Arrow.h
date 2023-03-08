@@ -17,6 +17,10 @@ public:
 		m_damage = 10;
 	};
 	~Arrow() {};
-	void Reset() override {};
+	void Reset() override 
+	{ 
+		this->DisableObject();
+		Set2DPosition(0, 0);
+	};
 };
 

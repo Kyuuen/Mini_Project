@@ -2,6 +2,7 @@
 #include "SpriteAnimation.h"
 #include "Sprite2D.h"
 #include "GamePool/PoolableObject.h"
+#include "GameManager/GameMaster.h"
 
 class Sprite2D;
 class Enemy : public SpriteAnimation, public Poolable
@@ -22,9 +23,11 @@ public:
 
 	void	EnemyMovement(GLfloat deltatime, GLfloat speed, Vector2 moveDir);
 	void	Update(GLfloat deltatime) override;
+	void	GetListTarget(std::list<std::shared_ptr<Sprite2D>> targets);
 	void	SeekTarget();
 	void	LockTarget();
 	Vector2		Get2DPosition();
-	void Reset() override;
+	void	Reset() override;
+	bool	IsAlive();
 };
 

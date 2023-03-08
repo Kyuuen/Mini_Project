@@ -9,7 +9,7 @@ protected:
 	GLuint		m_vboId;
 
 public:
-	Sprite2D() : BaseObject(), m_iWidth(0), m_iHeight(0), m_vboId(0) {}
+	Sprite2D() : BaseObject(), m_iWidth(0), m_iHeight(0), m_vboId(0) { Init(); }
 	Sprite2D(GLint id, std::shared_ptr<Model> model, std::shared_ptr<Shader> shader, std::shared_ptr<Texture> texture);
 	Sprite2D(GLint id, std::shared_ptr<Model> model, std::shared_ptr<Shader> shader, Vector4 color);
 	Sprite2D(std::shared_ptr<Model> model, std::shared_ptr<Shader> shader, std::shared_ptr<Texture> texture);

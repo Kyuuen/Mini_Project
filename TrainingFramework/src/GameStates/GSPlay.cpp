@@ -6,13 +6,10 @@
 #include "Camera.h"
 #include "Font.h"
 #include "Sprite2D.h"
-#include "Sprite3D.h"
 #include "Text.h"
 #include "GameButton.h"
-#include "SpriteAnimation.h"
 #include "Enemy.h"
 #include "Towers/ArcherTower.h"
-#include "Projectiles/Projectile.h"
 
 
 GSPlay::GSPlay()
@@ -31,8 +28,6 @@ void GSPlay::Init()
 	m_isPause = false;
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
 	auto texture = ResourceManagers::GetInstance()->GetTexture("map_1.1.tga");
-
-	//Wave Spawner
 	
 	// background
 	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
@@ -53,14 +48,14 @@ void GSPlay::Init()
 		auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
 		auto texture = ResourceManagers::GetInstance()->GetTexture("play_button.tga");
 		std::shared_ptr<GameButton>  Continue = std::make_shared<GameButton>(model, shader, texture);
-		Continue->Set2DPosition(Globals::screenWidth/2 - 50, Globals::screenWidth / 2 );
-		Continue->SetSize(50, 50);
+		Continue->Set2DPosition(Globals::screenWidth/2 - 100, 400);
+		Continue->SetSize(150, 150);
 		m_listButton.push_back(Continue);
 		//exit
 		texture = ResourceManagers::GetInstance()->GetTexture("cancel_button.tga");
 		std::shared_ptr<GameButton>  Exit = std::make_shared<GameButton>(model, shader, texture);
-		Exit->Set2DPosition(Globals::screenWidth / 2 + 50, Globals::screenWidth / 2);
-		Exit->SetSize(50, 50);
+		Exit->Set2DPosition(Globals::screenWidth / 2 + 100, 400);
+		Exit->SetSize(150, 150);
 		Continue->SetOnClick([this]() 
 		{
 			m_isPause = false;
@@ -72,14 +67,25 @@ void GSPlay::Init()
 		{
 			GameStateMachine::GetInstance()->PopState();
 		});
+		//Game Pause text
+		shader = ResourceManagers::GetInstance()->GetShader("TextShader");
+		std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("SuperMario256.ttf");
+		m_pauseText = std::make_shared< Text>(shader, font, "Paused", TextColor::YELLOW, 3.0);
+		m_pauseText->Set2DPosition(Vector2(580, 300));
 	});
 
-
-	// score
+	// money
 	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
 	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("SuperMario256.ttf");
-	m_score = std::make_shared< Text>(shader, font, "score: 10", TextColor::RED, 1.0);
-	m_score->Set2DPosition(Vector2(5, 25));
+	m_money = std::make_shared< Text>(shader, font, "$" + std::to_string(GameMaster::GetInstance()->GetCurrentMoney()), TextColor::YELLOW, 2.0);
+	m_money->Set2DPosition(Vector2(5, 150));
+	m_money->m_type = 1;
+	m_KeyPress = 0;
+
+	// player health
+	m_health = std::make_shared< Text>(shader, font,"Health: " + std::to_string(GameMaster::GetInstance()->GetCurrentHealth()), TextColor::YELLOW, 2.0);
+	m_health->Set2DPosition(Vector2(5, 50));
+	m_health->m_type = 2;
 	m_KeyPress = 0;
 
 	// begin waypoint
@@ -154,22 +160,8 @@ void GSPlay::Init()
 	waypoint_9->SetSize(60, 80);
 	m_listWaypoint.push_back(waypoint_9);
 
-	//Enemy1
-	shader = ResourceManagers::GetInstance()->GetShader("Animation");
-	texture = ResourceManagers::GetInstance()->GetTexture("enemy2walking_02.tga");
-	std::shared_ptr<Enemy>	m_enemy = std::make_shared<Enemy>(model, shader, texture, 30, 300, m_listWaypoint);
-	m_enemy->LockTarget();
-	m_enemy->Set2DPosition(50, 900);
-	m_enemy->SetSize(70, 70);
-	m_listEnemy.push_back(m_enemy);
-
-	std::shared_ptr<ArcherTower> archerTower = TowerPooling::GetInstance()->GetFromPool();
-	if (archerTower != nullptr)
-	{
-		archerTower->Set2DPosition(690, 700);
-		archerTower->SetSize(120, 120);
-	}
-	m_listTower.push_back(archerTower);
+	//Wave Spawner
+	WaveSpawner::GetInstance()->GetListWaypoints(m_listWaypoint);
 
 	//Node
 	shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
@@ -182,10 +174,11 @@ void GSPlay::Init()
 		std::shared_ptr<ArcherTower> archerTower = TowerPooling::GetInstance()->GetFromPool();
 		if (archerTower != nullptr)
 		{
-			archerTower->Set2DPosition(690, 700);
+			archerTower->Set2DPosition(690, 660);
 			archerTower->SetSize(120, 120);
 		}
 		m_listTower.push_back(archerTower);
+		GameMaster::GetInstance()->SpendToBuild();
 	});
 
 	//Node2
@@ -197,10 +190,11 @@ void GSPlay::Init()
 		std::shared_ptr<ArcherTower> archerTower = TowerPooling::GetInstance()->GetFromPool();
 		if (archerTower != nullptr)
 		{
-			archerTower->Set2DPosition(1060, 500);
+			archerTower->Set2DPosition(1060, 460);
 			archerTower->SetSize(120, 120);
 		}
 		m_listTower.push_back(archerTower);
+		GameMaster::GetInstance()->SpendToBuild();
 	});
 
 	//Node3
@@ -212,10 +206,11 @@ void GSPlay::Init()
 		std::shared_ptr<ArcherTower> archerTower = TowerPooling::GetInstance()->GetFromPool();
 		if (archerTower != nullptr)
 		{
-			archerTower->Set2DPosition(270, 370);
+			archerTower->Set2DPosition(270, 330);
 			archerTower->SetSize(120, 120);
 		}
 		m_listTower.push_back(archerTower);
+		GameMaster::GetInstance()->SpendToBuild();
 	});
 
 	//Node4
@@ -227,10 +222,11 @@ void GSPlay::Init()
 		std::shared_ptr<ArcherTower> archerTower = TowerPooling::GetInstance()->GetFromPool();
 		if (archerTower != nullptr)
 		{
-			archerTower->Set2DPosition(625, 230);
+			archerTower->Set2DPosition(625, 190);
 			archerTower->SetSize(120, 120);
 		}
 		m_listTower.push_back(archerTower);
+		GameMaster::GetInstance()->SpendToBuild();
 	});
 
 	//Node5
@@ -242,12 +238,12 @@ void GSPlay::Init()
 		std::shared_ptr<ArcherTower> archerTower = TowerPooling::GetInstance()->GetFromPool();
 		if (archerTower != nullptr)
 		{
-			archerTower->Set2DPosition(390, 600);
+			archerTower->Set2DPosition(390, 560);
 			archerTower->SetSize(120, 120);
 		}
 		m_listTower.push_back(archerTower);
+		GameMaster::GetInstance()->SpendToBuild();
 	});
-
 }
 
 void GSPlay::Exit()
@@ -348,6 +344,22 @@ void GSPlay::HandleTouchEvents(int x, int y, bool bIsPressed)
 			break;
 		}
 	}
+	if (GameMaster::GetInstance()->GetCurrentMoney() >= 200) {
+		for (auto button : m_listNode)
+		{
+			if (button->HandleTouchEvents(x, y, bIsPressed))
+			{
+				break;
+			}
+		}
+	}
+	for (auto button : m_exitButton)
+	{
+		if (button->HandleTouchEvents(x, y, bIsPressed))
+		{
+			break;
+		}
+	}
 }
 
 void GSPlay::HandleMouseMoveEvents(int x, int y)
@@ -355,14 +367,18 @@ void GSPlay::HandleMouseMoveEvents(int x, int y)
 }
 
 void GSPlay::Update(float deltaTime)
-{
+{	
+	m_isOver = GameMaster::GetInstance()->GameIsOver();
+	m_money->Update(deltaTime);
+	m_health->Update(deltaTime);
 	switch (m_KeyPress)//Handle Key event
 	{
 	default:
 		break;
 	}
-	if (m_isPause == false)
+	if (m_isPause == false && m_isOver == false)
 	{
+		WaveSpawner::GetInstance()->Update(deltaTime, m_listEnemy);
 		for (auto it : m_listNode)
 		{
 			it->Update(deltaTime);
@@ -373,7 +389,7 @@ void GSPlay::Update(float deltaTime)
 		}
 		for (auto it : m_listArrow)
 		{
-			it->Update(deltaTime);
+			if(it != nullptr) it->Update(deltaTime);
 		}
 		for (auto it : m_listEnemy)
 		{
@@ -402,14 +418,15 @@ void GSPlay::Update(float deltaTime)
 void GSPlay::Draw()
 {
 	m_background->Draw();
-	m_score->Draw();
+	m_health->Draw();
+	m_money->Draw();
 	for (auto it : m_listNode)
 	{
 		it->Draw();
 	}
 	for (auto it : m_listEnemy) 
 	{
-		it->Draw();
+		if(it->IsEnable()) it->Draw();
 	}
 	for (auto it : m_listAnimation)
 	{
@@ -421,7 +438,7 @@ void GSPlay::Draw()
 	}
 	for (auto it : m_listArrow)
 	{
-		it->Draw();
+		if(it != nullptr) it->Draw();
 	}
 	for (auto it : m_listButton)
 	{
@@ -436,4 +453,5 @@ void GSPlay::Draw()
 			it->Draw();
 		}
 	}
+	if (m_isPause) m_pauseText->Draw();
 }

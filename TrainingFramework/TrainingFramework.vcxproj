@@ -373,6 +373,7 @@
   <ItemGroup>
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\GameConfig.h" />
+    <ClInclude Include="src\GameManager\GameMaster.h" />
     <ClInclude Include="src\GameManager\ResourceManagers.h" />
     <ClInclude Include="src\GameManager\Singleton.h" />
     <ClInclude Include="src\GameManager\WaveSpawner.h" />

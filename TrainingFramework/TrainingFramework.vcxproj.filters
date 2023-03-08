@@ -154,6 +154,7 @@
     <ClInclude Include="src\GamePool\ArrowPooling.h" />
     <ClInclude Include="src\GamePool\TowerPooling.h" />
     <ClInclude Include="src\GamePool\EnemyPooling.h" />
+    <ClInclude Include="src\GameManager\GameMaster.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

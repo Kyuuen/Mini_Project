@@ -6,15 +6,16 @@
 #include "Texture.h"
 #include "Application.h"
 #include "GameManager/ResourceManagers.h"
+#include "GamePool/EnemyPooling.h"
 
 #include <math.h>
 
 Enemy::Enemy() : SpriteAnimation()
 {	
 	m_isEnable = false;
-	m_maxHealth = 30;
+	m_maxHealth = 10;
 	m_currentHealth = m_maxHealth;
-	m_speed = 100;
+	m_speed = 200;
 	m_targetIndex = 0;
 	Set2DPosition(50, 900);
 	SetSize(70, 70);
@@ -37,6 +38,7 @@ Enemy::~Enemy()
 void Enemy::LockTarget() 
 {	
 	if (m_targetIndex >= m_listTargets.size()) {
+		GameMaster::GetInstance()->EnemyBreakThrough();
 		Reset();
 		return;
 	}
@@ -84,20 +86,32 @@ Vector2 Enemy::Get2DPosition()
 
 void Enemy::Update(GLfloat deltatime) 
 {	
-	EnemyMovement(deltatime, m_speed, m_moveDir);
-	m_currentTime += deltatime;
-	if (m_currentTime >= m_frameTime)
-	{
-		m_currentFrame++;
-		if (m_currentFrame >= m_numFrames)
-			m_currentFrame = 0;
-		m_currentTime -= m_frameTime;
-	}
+	if (!IsAlive()) this->DisableObject();
+	if (IsEnable()) {
+		EnemyMovement(deltatime, m_speed, m_moveDir);
+		m_currentTime += deltatime;
+		if (m_currentTime >= m_frameTime)
+		{
+			m_currentFrame++;
+			if (m_currentFrame >= m_numFrames)
+				m_currentFrame = 0;
+			m_currentTime -= m_frameTime;
+		}
+	}else EnemyPooling::GetInstance()->ReturnToPool(std::static_pointer_cast<Enemy>(shared_from_this()));
 }
 
 void Enemy::Reset() 
 {
 	this->DisableObject();
 	Set2DPosition(0, 0);
-	//Reduce player's health
+}
+
+void Enemy::GetListTarget(std::list<std::shared_ptr<Sprite2D>> targets)
+{
+	m_listTargets = targets;
+}
+
+bool Enemy::IsAlive() 
+{
+	if (m_currentHealth <= 0) return false;
 }

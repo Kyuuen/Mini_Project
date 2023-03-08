@@ -14,12 +14,16 @@ public:
 		m_pModel = model;
 		m_pShader = shader;
 		m_pTexture = texture;
-		m_range = 70;
+		m_range = 150;
 		m_fireRate = 2;
 		m_fireCount = 0;
 		m_cost = 100;
 		m_towerIndex = 1;
 	};
 	~ArcherTower() {};
-	void Reset() override {};
+	void Reset() override 
+	{
+		this->DisableObject();
+		Set2DPosition(0, 0);
+	};
 };

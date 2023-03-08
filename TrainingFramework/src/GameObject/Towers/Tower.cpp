@@ -11,10 +11,11 @@
 
 #include <cmath>
 
-Tower::Tower()
+Tower::Tower() : Sprite2D()
 {
 	m_isEnable = false;
 }
+
 Tower::Tower(std::shared_ptr<Model> model, std::shared_ptr<Shader> shader, std::shared_ptr<Texture> texture, GLfloat range, GLfloat fireRate, GLfloat fireCount, GLint cost)
 	: Sprite2D(model, shader, texture) 
 {
@@ -89,5 +90,5 @@ std::shared_ptr<Arrow> Tower::ShootArrow()
 void Tower::Reset() 
 {
 	this->DisableObject();
-	m_position;
+	Set2DPosition(0, 0);
 }
