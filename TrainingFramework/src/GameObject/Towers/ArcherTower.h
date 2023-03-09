@@ -14,8 +14,8 @@ public:
 		m_pModel = model;
 		m_pShader = shader;
 		m_pTexture = texture;
-		m_range = 150;
-		m_fireRate = 2;
+		m_range = 200;
+		m_fireRate = 1.5;
 		m_fireCount = 0;
 		m_cost = 100;
 		m_towerIndex = 1;

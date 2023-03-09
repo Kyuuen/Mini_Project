@@ -5,50 +5,66 @@
 
 WaveSpawner::WaveSpawner()
 {
-    m_numWaves = 5;
-    m_initialNumEnemies = 2;
-    m_spawnInterval = 2.0f;
-    m_spawnIntervalReduction = 1;
-    m_currentWave = 0;
-    m_timeSinceLastSpawn = 0.0f;
-    m_numEnemiesSpawned = 0;
-
+    m_waveIndex = 1;
+    m_waveCountDown = 2;
+    m_enemySpawned = 0;
+    m_timeBetweenWave = 7.0f;
+    m_spawnRate = 1.2f;
+    m_spawnCountDown = 1.0f / m_spawnRate;
+    m_isPlayed = false;
 }
 
 WaveSpawner::~WaveSpawner() 
 {
 }
 
-void WaveSpawner::Update(GLfloat deltaTime, std::list<std::shared_ptr<Enemy>>& listEnemy) {
-    m_timeSinceLastSpawn += deltaTime;
-
-    // Check if we should spawn a new enemy
-    if (m_timeSinceLastSpawn >= m_spawnInterval && m_numEnemiesSpawned < m_initialNumEnemies * (m_currentWave + 1)) {
-        // Create a new enemy
-        std::shared_ptr<Enemy> enemy = EnemyPooling::GetInstance()->GetFromPool();
-        if (enemy != nullptr) 
+void WaveSpawner::Update(GLfloat deltaTime, std::list<std::shared_ptr<Enemy>>& listEnemy) 
+{
+    m_waveCountDown -= deltaTime;
+    // Check if the next wave incomming?
+    if (m_waveCountDown <= 0) 
+    {
+        if(!m_isPlayed)
         {
-            enemy->GetListTarget(m_targetWaypoints);
-            enemy->LockTarget();
+            ResourceManagers::GetInstance()->PlaySound("newgame.wav");
+            m_isPlayed = true;
         }
-        listEnemy.push_back(enemy);
 
-        // Reset the spawn timer
-        m_timeSinceLastSpawn = 0.0f;
-        m_numEnemiesSpawned++;
-
-        // Reduce the spawn interval
-        m_spawnInterval *= m_spawnIntervalReduction;
+        m_spawnCountDown -= deltaTime;
+        //Check if we have wait enough to spawn 1 more
+        if (m_spawnCountDown <= 0) 
+        {
+            if (m_enemySpawned < m_waveIndex)
+            {
+                // Create a new enemy
+                std::shared_ptr<Enemy> enemy = EnemyPooling::GetInstance()->GetFromPool();
+                if (enemy != nullptr)
+                {
+                    enemy->GetListTarget(m_targetWaypoints);
+                    enemy->LockTarget();
+                }
+                listEnemy.push_back(enemy);
+                m_enemySpawned++;
+            }
+            else
+            {
+                m_waveCountDown = m_timeBetweenWave;
+                m_waveIndex++;
+                m_enemySpawned = 0;
+            }
+            m_spawnCountDown = 1.f / m_spawnRate;
+        }
     }
-
-    // Check if we've finished spawning this wave
-    if (m_numEnemiesSpawned >= m_initialNumEnemies * (m_currentWave + 1)) {
-        m_currentWave++;
-        m_numEnemiesSpawned = 0;
-    }
+    else
+        m_isPlayed = false;
 }
 
 void WaveSpawner::GetListWaypoints(std::list<std::shared_ptr<Sprite2D>> listWaypoints)
 {
     m_targetWaypoints = listWaypoints;
+}
+
+GLfloat WaveSpawner::GetWaveCountDown()
+{
+    return m_waveCountDown;
 }

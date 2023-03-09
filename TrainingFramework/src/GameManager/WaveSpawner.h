@@ -2,6 +2,7 @@
 #include "GameManager/Singleton.h"
 #include "GameConfig.h"
 #include "Enemy.h"
+#include "GameManager/ResourceManagers.h"
 
 class WaveSpawner : public  CSingleton<WaveSpawner>
 {
@@ -15,16 +16,15 @@ public:
 		return m_listEnemies;
 	}
 	std::list<std::shared_ptr<Sprite2D>> m_targetWaypoints;
-
+	GLfloat GetWaveCountDown();
 private:
-	GLint m_numWaves;
-	GLint m_initialNumEnemies;
-	GLfloat m_spawnInterval;
-	GLfloat m_spawnIntervalReduction;
-	GLfloat m_timeSinceLastSpawn;
-	GLint m_currentWave;
-	GLint m_numEnemiesSpawned;
 	std::list<std::shared_ptr<Enemy>> m_listEnemies;
-	GLfloat timeBetweenWave = 5.f;
+	GLfloat m_timeBetweenWave;
+	GLint	m_waveIndex;
+	GLfloat	m_waveCountDown;
+	GLfloat m_spawnCountDown;
+	GLfloat m_spawnRate;
+	GLint	m_enemySpawned;
+	GLboolean m_isPlayed;
 };
 

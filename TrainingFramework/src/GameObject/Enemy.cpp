@@ -13,11 +13,11 @@
 Enemy::Enemy() : SpriteAnimation()
 {	
 	m_isEnable = false;
-	m_maxHealth = 10;
+	m_maxHealth = 30;
 	m_currentHealth = m_maxHealth;
 	m_speed = 200;
 	m_targetIndex = 0;
-	Set2DPosition(50, 900);
+	Set2DPosition(0, 900);
 	SetSize(70, 70);
 }
 Enemy::Enemy(std::shared_ptr<Model> model, std::shared_ptr<Shader> shader, std::shared_ptr<Texture> texture, GLint maxHealth, GLfloat speed, std::list<std::shared_ptr<Sprite2D>> targets)
@@ -37,7 +37,7 @@ Enemy::~Enemy()
 
 void Enemy::LockTarget() 
 {	
-	if (m_targetIndex >= m_listTargets.size()) {
+	if (m_targetIndex == m_listTargets.size()) {
 		GameMaster::GetInstance()->EnemyBreakThrough();
 		Reset();
 		return;
@@ -86,7 +86,6 @@ Vector2 Enemy::Get2DPosition()
 
 void Enemy::Update(GLfloat deltatime) 
 {	
-	if (!IsAlive()) this->DisableObject();
 	if (IsEnable()) {
 		EnemyMovement(deltatime, m_speed, m_moveDir);
 		m_currentTime += deltatime;
@@ -97,7 +96,16 @@ void Enemy::Update(GLfloat deltatime)
 				m_currentFrame = 0;
 			m_currentTime -= m_frameTime;
 		}
-	}else EnemyPooling::GetInstance()->ReturnToPool(std::static_pointer_cast<Enemy>(shared_from_this()));
+	}
+	else 
+	{
+		EnemyPooling::GetInstance()->ReturnToPool(std::static_pointer_cast<Enemy>(shared_from_this()));
+		return;
+	}
+	if (!IsAlive()) {
+		Die();
+		return;
+	}
 }
 
 void Enemy::Reset() 
@@ -114,4 +122,12 @@ void Enemy::GetListTarget(std::list<std::shared_ptr<Sprite2D>> targets)
 bool Enemy::IsAlive() 
 {
 	if (m_currentHealth <= 0) return false;
+}
+
+void Enemy::Die()
+{
+	this->DisableObject();
+	GameMaster::GetInstance()->GetBoundty(35);
+	GameMaster::GetInstance()->SetEnemyKilled();
+	ResourceManagers::GetInstance()->PlaySound("death.wav");
 }

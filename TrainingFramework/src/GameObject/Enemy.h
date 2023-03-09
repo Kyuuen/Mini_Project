@@ -29,5 +29,6 @@ public:
 	Vector2		Get2DPosition();
 	void	Reset() override;
 	bool	IsAlive();
+	void	Die();
 };
 

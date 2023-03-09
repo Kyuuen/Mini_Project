@@ -1,6 +1,7 @@
 #pragma once
 #include "BaseObject.h"
 #include "GameManager/GameMaster.h"
+#include "GameManager/WaveSpawner.h"
 
 enum class TextColor {
 	WHITE = 0,

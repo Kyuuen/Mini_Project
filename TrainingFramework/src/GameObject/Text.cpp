@@ -4,6 +4,7 @@
 #include "Shader.h"
 #include "Camera.h"
 #include "Application.h"
+#include <math.h>
 
 
 Text::Text(std::shared_ptr<Shader> shader, std::shared_ptr<Font> font, std::string text, TextColor color, float size, TextAlign align)
@@ -44,7 +45,8 @@ void Text::Init()
 
 void Text::Draw()
 {
-	if (m_pCamera == nullptr) return;
+	if (m_pCamera == nullptr)
+		return;
 	GLuint iTempShaderVaribleGLID = -1;
 
 	glUseProgram(m_pShader->m_program);
@@ -112,8 +114,13 @@ void Text::Draw()
 
 void Text::Update(GLfloat deltatime)
 {
-	if(m_type == 1) m_text = "$" + std::to_string(GameMaster::GetInstance()->GetCurrentMoney());
-	else m_text = "Health: " + std::to_string(GameMaster::GetInstance()->GetCurrentHealth());
+	if (m_type == 1) m_text = "$" + std::to_string(GameMaster::GetInstance()->GetCurrentMoney());
+	else if(m_type == 2) m_text = "Health: " + std::to_string(GameMaster::GetInstance()->GetCurrentHealth());
+	else if (m_type == 3) 
+	{
+		if (WaveSpawner::GetInstance()->GetWaveCountDown() < 0) return;
+		m_text = "Next wave: " + std::to_string(WaveSpawner::GetInstance()->GetWaveCountDown());
+	}
 }
 
 

@@ -1,8 +1,8 @@
 #include "EnemyPooling.h"
 EnemyPooling::EnemyPooling() : GameObjectPool()
 {
-	m_poolLimit = 10;
-	m_poolSize = 10;
+	m_poolLimit = 50;
+	m_poolSize = 50;
 
 	for (int i = 0; i < m_poolSize; i++)
 	{

@@ -38,11 +38,16 @@ public:
 private:
 	GLboolean m_isOver;
 	GLboolean m_isPause;
+	GLboolean m_pauseToDraw;
+	GLboolean m_isPlayed;
+	GLboolean m_Overing;
 	std::shared_ptr<Sprite2D>	m_gameOver;
 	std::shared_ptr<Sprite2D>	m_background;
 	std::shared_ptr<Text>		m_money;
 	std::shared_ptr<Text>		m_health;
 	std::shared_ptr<Text>		m_pauseText;
+	std::shared_ptr<Text>		m_waveCountDown;
+	std::shared_ptr<Text>		m_enemiesKilled;
 	std::shared_ptr<Text>		m_gameOverText;
 	std::list<std::shared_ptr<GameButton>>	m_exitButton;
 	std::list<std::shared_ptr<GameButton>>	m_listButton;

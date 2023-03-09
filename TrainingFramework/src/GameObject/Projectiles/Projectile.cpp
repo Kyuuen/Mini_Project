@@ -59,3 +59,11 @@ void Projectile::Reset()
 	this->DisableObject();
 	this->Set2DPosition(0, 0);
 }
+
+void Projectile::Set2DRotation() 
+{
+	Vector2 tPosition = m_target->Get2DPosition();
+	Vector2 currentFramePos = this->Get2DPosition();
+	Vector2 moveDir = tPosition - currentFramePos;
+	SetRotation(Vector3(moveDir.x, moveDir.y, 0));
+}

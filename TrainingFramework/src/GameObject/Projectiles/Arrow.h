@@ -9,12 +9,14 @@ public:
 	{
 		auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
 		auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
-		auto texture = ResourceManagers::GetInstance()->GetTexture("arrow.tga");
+		auto texture = ResourceManagers::GetInstance()->GetTexture("stone.tga");
 		m_pModel = model;
 		m_pShader = shader;
 		m_pTexture = texture;
-		m_speed = 70;
+		m_speed = 300;
 		m_damage = 10;
+		SetSize(20, 20);
+		//Set2DRotation();
 	};
 	~Arrow() {};
 	void Reset() override 

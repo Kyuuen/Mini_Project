@@ -84,6 +84,7 @@ std::shared_ptr<Arrow> Tower::ShootArrow()
 		arrow->SetPosition(m_position);
 		arrow->Seek(m_target);
 	}
+	ResourceManagers::GetInstance()->PlaySound("rock.wav");
 	return arrow;
 }
 

@@ -24,8 +24,11 @@ GSPlay::~GSPlay()
 
 void GSPlay::Init()
 {
+	m_isPlayed = false;
+	m_pauseToDraw = false;
 	m_isOver = false;
 	m_isPause = false;
+	m_Overing = false;
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
 	auto texture = ResourceManagers::GetInstance()->GetTexture("map_1.1.tga");
 	
@@ -42,6 +45,7 @@ void GSPlay::Init()
 	button->SetSize(50, 50);
 	m_listButton.push_back(button);
 	button->SetOnClick([this]() {
+		m_pauseToDraw = true;
 		m_isPause = true;
 		//continue
 		auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
@@ -52,7 +56,7 @@ void GSPlay::Init()
 		Continue->SetSize(150, 150);
 		m_listButton.push_back(Continue);
 		//exit
-		texture = ResourceManagers::GetInstance()->GetTexture("cancel_button.tga");
+		texture = ResourceManagers::GetInstance()->GetTexture("Home_Button.tga");
 		std::shared_ptr<GameButton>  Exit = std::make_shared<GameButton>(model, shader, texture);
 		Exit->Set2DPosition(Globals::screenWidth / 2 + 100, 400);
 		Exit->SetSize(150, 150);
@@ -67,11 +71,6 @@ void GSPlay::Init()
 		{
 			GameStateMachine::GetInstance()->PopState();
 		});
-		//Game Pause text
-		shader = ResourceManagers::GetInstance()->GetShader("TextShader");
-		std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("SuperMario256.ttf");
-		m_pauseText = std::make_shared< Text>(shader, font, "Paused", TextColor::YELLOW, 3.0);
-		m_pauseText->Set2DPosition(Vector2(580, 300));
 	});
 
 	// money
@@ -81,6 +80,16 @@ void GSPlay::Init()
 	m_money->Set2DPosition(Vector2(5, 150));
 	m_money->m_type = 1;
 	m_KeyPress = 0;
+
+	//Wave count down timer
+	m_waveCountDown = std::make_shared< Text>(shader, font, "Next wave: " + std::to_string(WaveSpawner::GetInstance()->GetWaveCountDown()), TextColor::YELLOW, 2.0);
+	m_waveCountDown->Set2DPosition(Vector2(5, 1000));
+	m_waveCountDown->m_type = 3;
+	m_KeyPress = 0;
+
+	//Game Pause text
+	m_pauseText = std::make_shared< Text>(shader, font, "Paused", TextColor::YELLOW, 3.0);
+	m_pauseText->Set2DPosition(Vector2(580, 300));
 
 	// player health
 	m_health = std::make_shared< Text>(shader, font,"Health: " + std::to_string(GameMaster::GetInstance()->GetCurrentHealth()), TextColor::YELLOW, 2.0);
@@ -179,6 +188,7 @@ void GSPlay::Init()
 		}
 		m_listTower.push_back(archerTower);
 		GameMaster::GetInstance()->SpendToBuild();
+		ResourceManagers::GetInstance()->PlaySound("towerBuilt.wav");
 	});
 
 	//Node2
@@ -195,6 +205,7 @@ void GSPlay::Init()
 		}
 		m_listTower.push_back(archerTower);
 		GameMaster::GetInstance()->SpendToBuild();
+		ResourceManagers::GetInstance()->PlaySound("towerBuilt.wav");
 	});
 
 	//Node3
@@ -211,6 +222,7 @@ void GSPlay::Init()
 		}
 		m_listTower.push_back(archerTower);
 		GameMaster::GetInstance()->SpendToBuild();
+		ResourceManagers::GetInstance()->PlaySound("towerBuilt.wav");
 	});
 
 	//Node4
@@ -227,6 +239,7 @@ void GSPlay::Init()
 		}
 		m_listTower.push_back(archerTower);
 		GameMaster::GetInstance()->SpendToBuild();
+		ResourceManagers::GetInstance()->PlaySound("towerBuilt.wav");
 	});
 
 	//Node5
@@ -243,6 +256,7 @@ void GSPlay::Init()
 		}
 		m_listTower.push_back(archerTower);
 		GameMaster::GetInstance()->SpendToBuild();
+		ResourceManagers::GetInstance()->PlaySound("towerBuilt.wav");
 	});
 }
 
@@ -263,6 +277,7 @@ void GSPlay::GameOver()
 {
 	//back ground game over
 	m_isPause = true;
+	ResourceManagers::GetInstance()->StopSound("level.wav");
 	auto model = ResourceManagers::GetInstance()->GetModel("Sprite2D.nfg");
 	auto shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
 	auto texture = ResourceManagers::GetInstance()->GetTexture("bg_main_menu.tga");
@@ -271,21 +286,32 @@ void GSPlay::GameOver()
 	m_gameOver->SetSize(Globals::screenWidth, Globals::screenHeight);
 	//text
 	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
-	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("Brightly Crush Shine.otf");
-	m_gameOverText = std::make_shared< Text>(shader, font, "Game Over!", TextColor::RED, 1.0);
-	m_gameOverText->Set2DPosition(Vector2((float)Globals::screenWidth / 2, (float)Globals::screenHeight / 2 + 50));
+	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("SuperMario256.ttf");
+	m_gameOverText = std::make_shared< Text>(shader, font, "Game Over!", TextColor::YELLOW, 3.0);
+	m_gameOverText->Set2DPosition(Vector2(500, 200));
 
+	//Enemies killed
+	m_enemiesKilled = std::make_shared< Text>(shader, font, "You've killed: " + std::to_string(GameMaster::GetInstance()->GetEnemyKilled()) + " enemies", TextColor::YELLOW, 2.5);
+	m_enemiesKilled->Set2DPosition(Vector2(300, 300));
 	//home button
 	shader = ResourceManagers::GetInstance()->GetShader("TextureShader");
-	texture = ResourceManagers::GetInstance()->GetTexture("play_button.tga");
+	texture = ResourceManagers::GetInstance()->GetTexture("Home_Button.tga");
 	std::shared_ptr<GameButton>  home = std::make_shared<GameButton>(model, shader, texture);
 	home->Set2DPosition((float)Globals::screenWidth / 2, (float)Globals::screenHeight / 2);
-	home->SetSize(50, 50);
+	home->SetSize(200, 200);
 	m_exitButton.push_back(home);
 	home->SetOnClick([this]() {
 		GameStateMachine::GetInstance()->PopState();
+		ResourceManagers::GetInstance()->PlaySound("level.wav");
+		ResourceManagers::GetInstance()->StopSound("gameover.wav");
 	});
-	
+
+	shader = ResourceManagers::GetInstance()->GetShader("Animation");
+	texture = ResourceManagers::GetInstance()->GetTexture("Enemy2Taunt_01.tga");
+	std::shared_ptr<SpriteAnimation> decor = std::make_shared<SpriteAnimation>(model, shader, texture, 18, 1, 0, 0.05f);
+	decor->Set2DPosition(300, 500);
+	decor->SetSize(300, 300);
+	m_listAnimation.push_back(decor);
 }
 void GSPlay::HandleEvents()
 {
@@ -369,8 +395,6 @@ void GSPlay::HandleMouseMoveEvents(int x, int y)
 void GSPlay::Update(float deltaTime)
 {	
 	m_isOver = GameMaster::GetInstance()->GameIsOver();
-	m_money->Update(deltaTime);
-	m_health->Update(deltaTime);
 	switch (m_KeyPress)//Handle Key event
 	{
 	default:
@@ -378,6 +402,9 @@ void GSPlay::Update(float deltaTime)
 	}
 	if (m_isPause == false && m_isOver == false)
 	{
+		m_money->Update(deltaTime);
+		m_health->Update(deltaTime);
+		m_waveCountDown->Update(deltaTime);
 		WaveSpawner::GetInstance()->Update(deltaTime, m_listEnemy);
 		for (auto it : m_listNode)
 		{
@@ -394,23 +421,31 @@ void GSPlay::Update(float deltaTime)
 		for (auto it : m_listEnemy)
 		{
 			it->Update(deltaTime);
-		}
-		for (auto it : m_listAnimation)
-		{
-			it->Update(deltaTime);
-		}
-		
+		}	
 	}
 	for (auto it : m_listButton)
 	{
 		it->Update(deltaTime);
 	}
+	for (auto it : m_listAnimation)
+	{
+		it->Update(deltaTime);
+	}
 	if (m_isOver)
 	{
-		GameOver();
-		for (auto it : m_exitButton)
+		if (!m_Overing)
 		{
-			it->Update(deltaTime);
+			if (!m_isPlayed)
+			{
+				ResourceManagers::GetInstance()->PlaySound("gameover.wav");
+				m_isPlayed = true;
+			}
+			GameOver();
+			for (auto it : m_exitButton)
+			{
+				it->Update(deltaTime);
+			}
+			m_Overing = true;
 		}
 	}
 }
@@ -438,20 +473,27 @@ void GSPlay::Draw()
 	}
 	for (auto it : m_listArrow)
 	{
-		if(it != nullptr) it->Draw();
+		if(it != nullptr) 
+			it->Draw();
 	}
 	for (auto it : m_listButton)
 	{
 		it->Draw();
 	}
+	m_waveCountDown->Draw();
 	if (m_isOver)
 	{
 		m_gameOver->Draw();
 		m_gameOverText->Draw();
+		m_enemiesKilled->Draw();
 		for (auto it : m_exitButton)
 		{
 			it->Draw();
 		}
+		for (auto it : m_listAnimation)
+		{
+			it->Draw();
+		}
 	}
-	if (m_isPause) m_pauseText->Draw();
+	if (m_pauseToDraw) m_pauseText->Draw();
 }

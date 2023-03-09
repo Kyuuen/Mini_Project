@@ -43,6 +43,28 @@ void GSMenu::Init()
 		});
 	m_listButton.push_back(button);
 
+	//Decor
+	shader = ResourceManagers::GetInstance()->GetShader("Animation");
+	texture = ResourceManagers::GetInstance()->GetTexture("Enemy2Idle.tga");
+	std::shared_ptr<SpriteAnimation> decor = std::make_shared<SpriteAnimation>(model, shader, texture, 12, 1, 0, 0.1f);
+	decor->Set2DPosition(450, 650);
+	decor->SetSize(300, 300);
+	m_listAnimation.push_back(decor);
+
+	//Decor 2
+	texture = ResourceManagers::GetInstance()->GetTexture("Enemy1Idle_02.tga");
+	decor = std::make_shared<SpriteAnimation>(model, shader, texture, 12, 1, 0, 0.1f);
+	decor->Set2DPosition(650, 650);
+	decor->SetSize(300, 300);
+	m_listAnimation.push_back(decor);
+
+	//Decor 3
+	texture = ResourceManagers::GetInstance()->GetTexture("enemy3idle.tga");
+	decor = std::make_shared<SpriteAnimation>(model, shader, texture, 12, 1, 0, 0.1f);
+	decor->Set2DPosition(850, 650);
+	decor->SetSize(300, 300);
+	m_listAnimation.push_back(decor);
+
 	// game title
 	shader = ResourceManagers::GetInstance()->GetShader("TextShader");
 	std::shared_ptr<Font> font = ResourceManagers::GetInstance()->GetFont("SuperMario256.ttf");
@@ -98,6 +120,10 @@ void GSMenu::Update(float deltaTime)
 	{
 		it->Update(deltaTime);
 	}
+	for(auto it: m_listAnimation)
+	{
+		it->Update(deltaTime);
+	}
 }
 
 void GSMenu::Draw()
@@ -108,4 +134,8 @@ void GSMenu::Draw()
 		it->Draw();
 	}
 	m_textGameName->Draw();
+	for (auto it : m_listAnimation)
+	{
+		it->Draw();
+	}
 }

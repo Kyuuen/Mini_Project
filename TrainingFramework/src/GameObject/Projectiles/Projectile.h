@@ -19,5 +19,6 @@ public:
 	void HitTarget(GLfloat deltaTime, GLfloat speed);
 	std::shared_ptr<Sprite2D> m_sprite;
 	void Reset();
+	void Set2DRotation();
 };
 
