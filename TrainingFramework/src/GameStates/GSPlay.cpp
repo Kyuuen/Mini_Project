@@ -495,5 +495,7 @@ void GSPlay::Draw()
 			it->Draw();
 		}
 	}
-	if (m_pauseToDraw) m_pauseText->Draw();
+	if (m_isPause) {
+		if (m_pauseToDraw) m_pauseText->Draw();
+	}
 }
